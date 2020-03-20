@@ -11,3 +11,4 @@ class Test(TestCase):
         config = init_config(args.config_file_path)
 
         assert config["url"] == "https://s3.zravian.com/"
+        assert config["cookies"]["lvl"] == "1"
