@@ -1,6 +1,12 @@
 import json
 
 
+class Config:
+    def __init__(self, url, cookies):
+        self.url = url
+        self.cookies = cookies
+
+
 def init_config(config_file_path):
     with open(config_file_path) as json_file:
         data = json.load(json_file)
@@ -21,6 +27,6 @@ def init_config(config_file_path):
                 data["cookies"][aux[0]] = aux[1]
 
         if ok:
-            return data
+            return Config(data["url"], data["cookies"])
         else:
             return None

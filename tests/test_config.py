@@ -10,10 +10,10 @@ class Test(TestCase):
 
         config = init_config(args.config_file_path)
 
-        assert config["url"] == "https://s3.zravian.com/"
+        assert config.url == "https://s3.zravian.com/"
 
-        assert "_ga" in config["cookies"]
-        assert "_gid" in config["cookies"]
-        assert "PHPSESSID" in config["cookies"]
-        assert "lvl" in config["cookies"]
-        assert "_gat" in config["cookies"]
+        assert "_ga" in config.cookies
+        assert "_gid" in config.cookies
+        assert "PHPSESSID" in config.cookies
+        assert "lvl" in config.cookies
+        assert "_gat" in config.cookies
