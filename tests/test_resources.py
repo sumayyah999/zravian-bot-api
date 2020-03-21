@@ -1,7 +1,7 @@
 from unittest import TestCase
 from bs4 import BeautifulSoup
 
-from api.resources import parse_resources
+from api.village_resources import parse_resources
 
 
 class Test(TestCase):

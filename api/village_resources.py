@@ -1,3 +1,6 @@
+# TODO(@alexvelea): use village_center.lvl_to_int(lvl_str) here as well. Figure a file to put it in.
+
+
 class ResourceType:
     def __init__(self, res_id, name):
         self.id = res_id
