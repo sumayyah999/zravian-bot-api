@@ -6,7 +6,7 @@ from api.resources import parse_resources
 
 class Test(TestCase):
     def test_parse_resources(self):
-        with open('./configs/village1-example.html', 'r') as content_file:
+        with open('./tests/configs/village1_example_html_dump.txt', 'r') as content_file:
             content = content_file.read()
             soup = BeautifulSoup(content, 'html.parser')
 
