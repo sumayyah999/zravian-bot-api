@@ -1,24 +1,10 @@
-import requests
-from bs4 import BeautifulSoup
-from functools import reduce
-
-
 class Account:
-    def __init__(self, config):
-        self.config = config
+    def __init__(self, uid):
+        self.uid = uid
 
-    def update_villages(self):
-        soup = self.call("profile.php")
+    def update_villages(self, credentials):
+        soup = credentials.call("profile.php", {'uid': self.uid})
         return parse_profile_page(soup)
-
-    def call(self, page):
-        url = self.config.url + page
-        # if len(get_dict):
-        #     url = url + "?" + reduce(lambda x, y: x + y,
-        #                              map(lambda x: '&{0}={1}'.format(str(x[0]), str(x[1])), get_dict.items()))[1:]
-
-        r = requests.post(url, cookies=self.config.cookies)
-        return BeautifulSoup(r.content, 'html.parser')
 
 
 def parse_profile_page(soup):
