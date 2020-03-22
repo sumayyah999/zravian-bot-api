@@ -1,7 +1,7 @@
 {
   "url": "https://s3.zravian.com/",
   "login_info": {
-    "username": "swissrhino",
+    "username": "api-static",
     "password": "parola"
   },
   "get-cookie-helper": "Go to chrome/firefox in the Javascript Console and type 'document.cookie' "

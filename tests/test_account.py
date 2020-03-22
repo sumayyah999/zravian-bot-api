@@ -19,19 +19,15 @@ class Test(TestCase):
             assert user_villages_str == expected
 
 
-# @TODO(alexvelea): Re-enable the test when there is a static account with the log-in function implemented
 class TestAccount(TestCase):
     def test_update_villages(self):
-        pass
+        args = get_parser().parse_args(args=["--config", "./tests/configs/config_login_example.json"])
+        config = init_config(args.config_file_path)
 
-        # args = get_parser().parse_args(args=["--config", "./tests/configs/config_login_example.json"])
-        # config = init_config(args.config_file_path)
-        #
-        # account = Account(config)
-        # user_villages = account.update_villages()
-        # user_villages_str = str(user_villages)
-        # print(user_villages_str)
-        #
-        # expected = """[("SwissRhino's village", '290')]"""
-        # assert user_villages_str == expected
+        account = Account(config)
+        user_villages = account.update_villages()
+        user_villages_str = str(user_villages)
+
+        expected = """[("api-static's village", '14')]"""
+        assert user_villages_str == expected
 
