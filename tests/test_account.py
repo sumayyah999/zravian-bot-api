@@ -24,7 +24,7 @@ class TestAccount(TestCase):
     def test_update_villages(self):
         pass
 
-        # args = get_parser().parse_args(args=["--config", "./tests/configs/config_example.json"])
+        # args = get_parser().parse_args(args=["--config", "./tests/configs/config_login_example.json"])
         # config = init_config(args.config_file_path)
         #
         # account = Account(config)

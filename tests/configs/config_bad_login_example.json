@@ -1,0 +1,8 @@
+{
+  "url": "https://s3.zravian.com/",
+  "login_info": {
+    "username": "swissrhino",
+    "password": "bad_password"
+  },
+  "get-cookie-helper": "Go to chrome/firefox in the Javascript Console and type 'document.cookie' "
+}

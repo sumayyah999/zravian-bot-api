@@ -5,9 +5,8 @@ from api.arguments import get_parser
 
 
 class Test(TestCase):
-    def test_config(self):
-        args = get_parser().parse_args(args=["--config", "./tests/configs/config_example.json"])
-
+    def test_config_cookie(self):
+        args = get_parser().parse_args(args=["--config", "./tests/configs/config_cookie_example.json"])
         config = init_config(args.config_file_path)
 
         assert config.url == "https://s3.zravian.com/"
@@ -17,3 +16,15 @@ class Test(TestCase):
         assert "PHPSESSID" in config.cookies
         assert "lvl" in config.cookies
         assert "_gat" in config.cookies
+
+    def test_config_login(self):
+        args = get_parser().parse_args(args=["--config", "./tests/configs/config_login_example.json"])
+        config = init_config(args.config_file_path)
+
+        assert config.url == "https://s3.zravian.com/"
+
+    def test_config_bad_login(self):
+        args = get_parser().parse_args(args=["--config", "./tests/configs/config_bad_login_example.json"])
+        config = init_config(args.config_file_path)
+
+        assert config is None
