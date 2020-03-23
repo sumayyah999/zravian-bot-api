@@ -5,6 +5,7 @@
 # TODO(@alexvelea): Add wall support
 # TODO(@alexvelea): Check for "Build a Main Building"
 from functools import reduce
+import utils
 
 
 class BuildingType:
@@ -62,13 +63,17 @@ class Buildings:
 
 
 class BuildingInstance:
-    def __init__(self, building, lvl, location_id):
+    # plus_lvl refers to the number of levels under construction
+    def __init__(self, building, lvl, plus_lvl, location_id):
         self.building = building
         self.lvl = lvl
+        self.plus_lvl = plus_lvl
         self.location_id = location_id
 
     def __str__(self):
-        return '{0}\t{1} @ {2}'.format(self.building, self.lvl, self.location_id)
+        return '{0}\t{1} @ {2}'.format(self.building,
+                                       self.lvl if self.plus_lvl == 0 else "{0}+{1}".format(self.lvl, self.plus_lvl),
+                                       self.location_id)
 
 
 class VillageCenter:
@@ -84,13 +89,6 @@ class VillageCenter:
         return reduce(lambda x, y: x + y, map(lambda x: str(x) + "\n", self.buildings))
 
 
-def lvl_to_int(lvl_str):
-    if '+' in lvl_str:
-        return int(lvl_str[0:lvl_str.find('+')])
-    else:
-        return int(lvl_str)
-
-
 def parse_center(soup):
     all_buildings = soup.find('map', {'name': 'map2'}).findAll('area')
 
@@ -99,26 +97,25 @@ def parse_center(soup):
     for index, raw_building in enumerate(all_buildings[0:18]):
         alt_text = raw_building['alt']
         if alt_text == Buildings.empty.name:
-            vc.buildings.append(BuildingInstance(Buildings.empty, lvl=0, location_id=VillageCenter.id_offset + index))
+            vc.buildings.append(BuildingInstance(Buildings.empty, lvl=0, plus_lvl=0, location_id=VillageCenter.id_offset + index))
             continue
 
         [building_name, building_lvl] = alt_text.split(' level ')
         building = Buildings.get_by_name(building_name)
-        lvl = lvl_to_int(building_lvl)
-
-        vc.buildings.append(BuildingInstance(building, lvl, VillageCenter.id_offset + index))
+        (lvl, plus_lvl) = utils.lvl_to_int(building_lvl)
+        vc.buildings.append(BuildingInstance(building, lvl, plus_lvl, VillageCenter.id_offset + index))
 
     # Get Rally Point
     rally_alt_text = all_buildings[20]['alt']
     rally_id = VillageCenter.id_offset + 20
 
     if rally_alt_text == 'Build a Rally Point':
-        vc.buildings.append(BuildingInstance(Buildings.rally, lvl=0, location_id=rally_id))
+        vc.buildings.append(BuildingInstance(Buildings.rally, lvl=0, plus_lvl=0, location_id=rally_id))
     else:
         [building_name, building_lvl] = rally_alt_text.split(' level ')
         building = Buildings.get_by_name(building_name)
-        lvl = lvl_to_int(building_lvl)
-        vc.buildings.append(BuildingInstance(building, lvl, rally_id))
+        (lvl, plus_lvl) = utils.lvl_to_int(building_lvl)
+        vc.buildings.append(BuildingInstance(building, lvl, plus_lvl, rally_id))
 
     # Pass on wall
     return vc

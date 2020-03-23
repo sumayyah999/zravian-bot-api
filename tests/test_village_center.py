@@ -16,7 +16,7 @@ class Test(TestCase):
             expected = """Warehouse	10 @ 19
 Granary	2 @ 20
 Empty place	0 @ 21
-Barracks	4 @ 22
+Barracks	4+1 @ 22
 Stable	20 @ 23
 Empty place	0 @ 24
 Empty place	0 @ 25

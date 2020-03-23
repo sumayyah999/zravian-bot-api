@@ -1,4 +1,5 @@
-# TODO(@alexvelea): use village_center.lvl_to_int(lvl_str) here as well. Figure a file to put it in.
+import time
+import utils
 
 
 class ResourceType:
@@ -24,18 +25,23 @@ class Resources:
 
 
 class ResourceInstance:
-    def __init__(self, resource, lvl, location_id):
+    # plus_lvl refers to the number of levels under construction
+    def __init__(self, resource, lvl, plus_lvl, location_id):
         self.resource = resource
         self.lvl = lvl
+        self.plus_lvl = plus_lvl
         self.location_id = location_id
 
     def __str__(self):
-        return "{0}\t{1} @ {2}".format(self.resource, self.lvl, self.location_id)
+        return "{0}\t{1} @ {2}".format(self.resource,
+                                       self.lvl if self.plus_lvl == 0 else "{0}+{1}".format(self.lvl, self.plus_lvl),
+                                       self.location_id)
 
 
 class VillageResources:
-    def __init__(self):
-        self.locations = []
+    def __init__(self, timestamp):
+        self.timestamp = timestamp
+        self.buildings = []
         self.production = [0, 0, 0, 0]
 
         self.stored = [0, 0, 0, 0]
@@ -44,7 +50,7 @@ class VillageResources:
 
     def __str__(self):
         s = ""
-        for location in self.locations:
+        for location in self.buildings:
             s = s + str(location) + "\n"
         s = s + "production: {0}\n".format(self.production)
         s = s + "stored: {0}\n".format(self.stored)
@@ -54,14 +60,15 @@ class VillageResources:
 
 
 def parse_resources(soup):
-    village = VillageResources()
+    village = VillageResources(time.time())
 
     for index, raw_res in enumerate(soup.findAll('area', {'shape': 'circle'})[0:18]):
         [res_name, res_lvl] = str(raw_res.get('alt')).split(' level ')
         res = Resources.get_resource(res_name)
+        lvl, plus_lvl = utils.lvl_to_int(res_lvl)
 
-        instance = ResourceInstance(res, int(res_lvl), index + 1)
-        village.locations.append(instance)
+        instance = ResourceInstance(res, lvl, plus_lvl, index + 1)
+        village.buildings.append(instance)
 
     for index, raw_res in enumerate(soup.find('table', {'id': 'production'}).findAll('td', {'class': 'num'})):
         prod_str = raw_res.string
