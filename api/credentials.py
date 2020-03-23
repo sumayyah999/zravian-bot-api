@@ -36,6 +36,10 @@ class Credentials:
 
         return Credentials(url, cookies)
 
+    def get_own_uid(self):
+        soup = self.call("profile.php")
+        return int(soup.find('input', {'name': 'uid'})['value'])
+
     def call(self, page, get_dict={}):
         url = self.url + page
         if len(get_dict):

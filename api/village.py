@@ -29,4 +29,4 @@ class Village:
         [self.x, self.y] = coords_from_vid(self.vid)
 
     def __str__(self):
-        return "{0}({1})".format(self.vid, self.name)
+        return "{0} ({1},{2})".format(self.name, self.x, self.y)

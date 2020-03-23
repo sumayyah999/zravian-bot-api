@@ -15,7 +15,7 @@ class Test(TestCase):
             user_villages = parse_profile_page(soup)
             user_villages_str = str(user_villages)
 
-            expected = "[('Koo-One', '1168'), ('Koo-Zero', '1051'), ('Koo-Two', '214')]"
+            expected = "[('Koo-One', 11464), ('Koo-Zero', 2598), ('Koo-Two', 11463)]"
             assert user_villages_str == expected
 
 
@@ -25,9 +25,9 @@ class TestAccount(TestCase):
         credentials = init_credentials(args.credentials_file_path)
 
         account = Account(uid=1)
-        user_villages = account.update_villages(credentials)
-        user_villages_str = str(user_villages)
+        account.update_villages(credentials)
+        account.update_villages(credentials)
+        user_villages_str = str(list(map(lambda x: str(x), account.villages)))
 
-        expected = "[('Multihunter', '2')]"
+        expected = "['Multihunter (0,0)']"
         assert user_villages_str == expected
-
