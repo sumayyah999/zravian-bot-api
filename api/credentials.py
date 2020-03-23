@@ -40,14 +40,12 @@ class Credentials:
         soup = self.call("profile.php")
         return int(soup.find('input', {'name': 'uid'})['value'])
 
-    def call(self, page, get_dict={}):
+    def call(self, page, params=None, data=None):
         url = self.url + page
-        if len(get_dict):
-            url = url + "?" + reduce(lambda x, y: x + y,
-                                     map(lambda x: '&{0}={1}'.format(str(x[0]), str(x[1])), get_dict.items()))[1:]
-
-        r = requests.post(url, cookies=self.cookies)
-        return BeautifulSoup(r.content, 'html.parser')
+        r = requests.post(url, cookies=self.cookies, params=params, data=data)
+        soup = BeautifulSoup(r.content, 'html.parser')
+        soup.page = page
+        return soup
 
 
 def init_credentials(credentials_file_path):

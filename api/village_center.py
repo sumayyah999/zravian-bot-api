@@ -1,9 +1,9 @@
 # File TODOs
-# TODO(@alexvelea): Add fixed positions for mainB/rally
+# TODO(@alexvelea): Add support for multiple buildings of same type (granary, warehouse)
+# TODO(@alexvelea): Check for "Build a Main Building" and add fixed positions for mainB
+# TODO(@alexvelea): Add wall support
 # TODO(@alexvelea): Add support for race specific buildings
 # TODO(@alexvelea): Add The rest of the buildings (extended{Rax,Stable}), Palace
-# TODO(@alexvelea): Add wall support
-# TODO(@alexvelea): Check for "Build a Main Building"
 from functools import reduce
 import utils
 
@@ -24,6 +24,7 @@ class Buildings:
     granary = BuildingType('Granary')
     warehouse = BuildingType('Warehouse')
     marketplace = BuildingType('Marketplace')
+    cranny = BuildingType('Cranny')
 
     # Military
     barracks = BuildingType('Barracks')
@@ -49,7 +50,7 @@ class Buildings:
 
     all = [
         empty,
-        mainB, granary, warehouse, marketplace,
+        mainB, granary, warehouse, marketplace, cranny,
         barracks, stable, siege, rally,
         academy, armoury, blacksmith,
         residence, hall,
@@ -80,6 +81,7 @@ class VillageCenter:
     # Village center buildings have IDs from [19, 38]
     # Rally point has ID 39
     # Wall has ID 40
+    url = 'village2.php'
     id_offset = 19
 
     def __init__(self):
@@ -87,6 +89,10 @@ class VillageCenter:
 
     def __str__(self):
         return reduce(lambda x, y: x + y, map(lambda x: str(x) + "\n", self.buildings))
+
+    def update_from_soup(self, soup):
+        nc = parse_center(soup)
+        self.buildings = nc.buildings
 
 
 def parse_center(soup):

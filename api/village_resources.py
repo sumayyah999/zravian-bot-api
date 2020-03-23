@@ -39,6 +39,9 @@ class ResourceInstance:
 
 
 class VillageResources:
+    url = 'village1.php'
+    id_offset = 1
+
     def __init__(self, timestamp):
         self.timestamp = timestamp
         self.buildings = []
@@ -57,6 +60,16 @@ class VillageResources:
         s = s + "capacity: {0}\n".format(self.capacity)
         s = s + "wheat_consumption: {0}\n".format(self.wheat_consumption)
         return s
+
+    def update_from_soup(self, soup):
+        nc = parse_resources(soup)
+        self.timestamp = nc.timestamp
+        self.buildings = nc.buildings
+        self.production = nc.production
+
+        self.stored = nc.stored
+        self.capacity = nc.capacity
+        self.wheat_consumption = nc.wheat_consumption
 
 
 def parse_resources(soup):
