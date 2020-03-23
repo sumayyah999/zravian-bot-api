@@ -9,44 +9,45 @@ import utils
 
 
 class BuildingType:
-    def __init__(self, name):
+    def __init__(self, name, bid):
         self.name = name
+        self.id = bid
 
     def __str__(self):
         return self.name
 
 
 class Buildings:
-    empty = BuildingType('Empty place')
+    empty = BuildingType('Empty place', 0)
 
     # Economy Infrastructure
-    mainB = BuildingType('Main Building')
-    granary = BuildingType('Granary')
-    warehouse = BuildingType('Warehouse')
-    marketplace = BuildingType('Marketplace')
-    cranny = BuildingType('Cranny')
+    mainB = BuildingType('Main Building', 15)
+    granary = BuildingType('Granary', 11)
+    warehouse = BuildingType('Warehouse', 10)
+    marketplace = BuildingType('Marketplace', 17)
+    cranny = BuildingType('Cranny', 23)
 
     # Military
-    barracks = BuildingType('Barracks')
-    stable = BuildingType('Stable')
-    siege = BuildingType('Siege Workshop')
-    rally = BuildingType('Rally Point')
+    barracks = BuildingType('Barracks', 19)
+    stable = BuildingType('Stable', 20)
+    siege = BuildingType('Siege Workshop', 21)
+    rally = BuildingType('Rally Point', 16)
 
     # Military infrastructure
-    academy = BuildingType('Academy')
-    armoury = BuildingType('Armoury')
-    blacksmith = BuildingType('Blacksmith')
+    academy = BuildingType('Academy', 22)
+    armoury = BuildingType('Armoury', 13)
+    blacksmith = BuildingType('Blacksmith', 12)
 
     # Expansion
-    residence = BuildingType('Residence')
-    hall = BuildingType('Town Hall')
+    residence = BuildingType('Residence', 25)
+    hall = BuildingType('Town Hall', 24)
 
     # Resources
-    bonusWood = BuildingType('Sawmill')
-    bonusClay = BuildingType('Brickworks')
-    bonusIron = BuildingType('Iron Foundry')
-    bonusCrop1 = BuildingType('Flour Mill')
-    bonusCrop2 = BuildingType('Bakery')
+    bonusWood = BuildingType('Sawmill', 5)
+    bonusClay = BuildingType('Brickworks', 6)
+    bonusIron = BuildingType('Iron Foundry', 7)
+    bonusCrop1 = BuildingType('Flour Mill', 8)
+    bonusCrop2 = BuildingType('Bakery', 9)
 
     all = [
         empty,
@@ -89,6 +90,9 @@ class VillageCenter:
 
     def __str__(self):
         return reduce(lambda x, y: x + y, map(lambda x: str(x) + "\n", self.buildings))
+
+    def find(self, building):
+        return list(filter(lambda x: x.building.name == building.name, self.buildings))
 
     def update_from_soup(self, soup):
         nc = parse_center(soup)

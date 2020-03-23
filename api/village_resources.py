@@ -3,7 +3,7 @@ import utils
 
 
 class ResourceType:
-    def __init__(self, res_id, name):
+    def __init__(self, name, res_id):
         self.id = res_id
         self.name = name
 
@@ -12,10 +12,10 @@ class ResourceType:
 
 
 class Resources:
-    wood = ResourceType(0, 'Woodcutter')
-    clay = ResourceType(1, 'Clay Pit')
-    iron = ResourceType(2, 'Iron Mine')
-    crop = ResourceType(3, 'Cropland')
+    wood = ResourceType('Woodcutter', 1)
+    clay = ResourceType('Clay Pit', 2)
+    iron = ResourceType('Iron Mine', 3)
+    crop = ResourceType('Cropland', 4)
 
     @classmethod
     def get_resource(cls, name):

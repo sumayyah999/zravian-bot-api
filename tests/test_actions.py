@@ -3,7 +3,8 @@ from unittest import TestCase
 from api.credentials import init_credentials
 from api.arguments import get_parser
 from api.account import Account
-from api.actions import upgrade_building, demolish_building
+from api.actions import construct_building, upgrade_building, demolish_building
+import api.village_center as center
 import time
 
 
@@ -16,7 +17,12 @@ class Test(TestCase):
         account = Account(own_uid)
         account.update_villages(credentials)
         account.villages[0].force_update(credentials)
-        ok = upgrade_building(credentials, account.villages[0], 32)
-        time.sleep(5)
+        assert construct_building(credentials, account.villages[0], 32, center.Buildings.cranny)
+        assert upgrade_building(credentials, account.villages[0], 32)
+        time.sleep(8)
         demolish_building(credentials, account.villages[0], 32)
-        assert ok
+        time.sleep(2)
+        demolish_building(credentials, account.villages[0], 32)
+        time.sleep(1)
+
+        # make sure we leave an empty server
