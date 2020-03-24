@@ -5,3 +5,8 @@ def lvl_to_int(lvl_str):
         return base_lvl, bonus_lvl
     else:
         return int(lvl_str), 0
+
+
+def countdown_to_sec(txt):
+    x = txt.split(':')
+    return int(x[0]) * 60 * 60 + int(x[1]) * 60 + int(x[2])

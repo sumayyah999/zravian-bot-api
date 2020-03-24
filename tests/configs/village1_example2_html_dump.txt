@@ -1,0 +1,737 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>Zravian s3</title>
+    <meta http-equiv="cache-control" content="max-age=0">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="imagetoolbar" content="no">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta content="travian zravian private multiplayer online free to play" name="description">
+    <meta content="travian zravian private multiplayer online free to play" name="keywords">
+    <link href="assets/default/lang/en/lang.css?29" rel="stylesheet" type="text/css">
+    <link href="assets/default/lang/en/compact.css?29" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+    <script src="https://connect.facebook.net/en_GB/all.js?hash=11bca0bec4a76f9923e91cfc0985817a&amp;ua=modern_es6"
+            async="" crossorigin="anonymous"></script>
+    <script id="facebook-jssdk" src="//connect.facebook.net/en_GB/all.js#xfbml=1"></script>
+    <script async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script type="text/javascript"><!--
+    var d3l = -600;//--></script>
+    <script src="assets/core.js?29" type="text/javascript"></script>
+    <style type="text/css">.icn {
+        display: inline-block;
+        width: 10px;
+        height: 20px;
+        margin: 0 3px 0 0;
+        background: url(assets/default/img/icons.gif?29) no-repeat
+    }</style>
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-97831323-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+    <style type="text/css">.fb_hidden {
+        position: absolute;
+        top: -10000px;
+        z-index: 10001
+    }
+
+    .fb_reposition {
+        overflow: hidden;
+        position: relative
+    }
+
+    .fb_invisible {
+        display: none
+    }
+
+    .fb_reset {
+        background: none;
+        border: 0;
+        border-spacing: 0;
+        color: #000;
+        cursor: auto;
+        direction: ltr;
+        font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
+        font-size: 11px;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: normal;
+        letter-spacing: normal;
+        line-height: 1;
+        margin: 0;
+        overflow: visible;
+        padding: 0;
+        text-align: left;
+        text-decoration: none;
+        text-indent: 0;
+        text-shadow: none;
+        text-transform: none;
+        visibility: visible;
+        white-space: normal;
+        word-spacing: normal
+    }
+
+    .fb_reset > div {
+        overflow: hidden
+    }
+
+    @keyframes fb_transform {
+        from {
+            opacity: 0;
+            transform: scale(.95)
+        }
+        to {
+            opacity: 1;
+            transform: scale(1)
+        }
+    }
+
+    .fb_animate {
+        animation: fb_transform .3s forwards
+    }
+
+    .fb_dialog {
+        background: rgba(82, 82, 82, .7);
+        position: absolute;
+        top: -10000px;
+        z-index: 10001
+    }
+
+    .fb_dialog_advanced {
+        border-radius: 8px;
+        padding: 10px
+    }
+
+    .fb_dialog_content {
+        background: #fff;
+        color: #373737
+    }
+
+    .fb_dialog_close_icon {
+        background: url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;
+        cursor: pointer;
+        display: block;
+        height: 15px;
+        position: absolute;
+        right: 18px;
+        top: 17px;
+        width: 15px
+    }
+
+    .fb_dialog_mobile .fb_dialog_close_icon {
+        left: 5px;
+        right: auto;
+        top: 5px
+    }
+
+    .fb_dialog_padding {
+        background-color: transparent;
+        position: absolute;
+        width: 1px;
+        z-index: -1
+    }
+
+    .fb_dialog_close_icon:hover {
+        background: url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent
+    }
+
+    .fb_dialog_close_icon:active {
+        background: url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent
+    }
+
+    .fb_dialog_iframe {
+        line-height: 0
+    }
+
+    .fb_dialog_content .dialog_title {
+        background: #6d84b4;
+        border: 1px solid #365899;
+        color: #fff;
+        font-size: 14px;
+        font-weight: bold;
+        margin: 0
+    }
+
+    .fb_dialog_content .dialog_title > span {
+        background: url(https://static.xx.fbcdn.net/rsrc.php/v3/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;
+        float: left;
+        padding: 5px 0 7px 26px
+    }
+
+    body.fb_hidden {
+        height: 100%;
+        left: 0;
+        margin: 0;
+        overflow: visible;
+        position: absolute;
+        top: -10000px;
+        transform: none;
+        width: 100%
+    }
+
+    .fb_dialog.fb_dialog_mobile.loading {
+        background: url(https://static.xx.fbcdn.net/rsrc.php/v3/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;
+        min-height: 100%;
+        min-width: 100%;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        z-index: 10001
+    }
+
+    .fb_dialog.fb_dialog_mobile.loading.centered {
+        background: none;
+        height: auto;
+        min-height: initial;
+        min-width: initial;
+        width: auto
+    }
+
+    .fb_dialog.fb_dialog_mobile.loading.centered #fb_dialog_loader_spinner {
+        width: 100%
+    }
+
+    .fb_dialog.fb_dialog_mobile.loading.centered .fb_dialog_content {
+        background: none
+    }
+
+    .loading.centered #fb_dialog_loader_close {
+        clear: both;
+        color: #fff;
+        display: block;
+        font-size: 18px;
+        padding-top: 20px
+    }
+
+    #fb-root #fb_dialog_ipad_overlay {
+        background: rgba(0, 0, 0, .4);
+        bottom: 0;
+        left: 0;
+        min-height: 100%;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 100%;
+        z-index: 10000
+    }
+
+    #fb-root #fb_dialog_ipad_overlay.hidden {
+        display: none
+    }
+
+    .fb_dialog.fb_dialog_mobile.loading iframe {
+        visibility: hidden
+    }
+
+    .fb_dialog_mobile .fb_dialog_iframe {
+        position: sticky;
+        top: 0
+    }
+
+    .fb_dialog_content .dialog_header {
+        background: linear-gradient(from(#738aba), to(#2c4987));
+        border-bottom: 1px solid;
+        border-color: #043b87;
+        box-shadow: white 0 1px 1px -1px inset;
+        color: #fff;
+        font: bold 14px Helvetica, sans-serif;
+        text-overflow: ellipsis;
+        text-shadow: rgba(0, 30, 84, .296875) 0 -1px 0;
+        vertical-align: middle;
+        white-space: nowrap
+    }
+
+    .fb_dialog_content .dialog_header table {
+        height: 43px;
+        width: 100%
+    }
+
+    .fb_dialog_content .dialog_header td.header_left {
+        font-size: 12px;
+        padding-left: 5px;
+        vertical-align: middle;
+        width: 60px
+    }
+
+    .fb_dialog_content .dialog_header td.header_right {
+        font-size: 12px;
+        padding-right: 5px;
+        vertical-align: middle;
+        width: 60px
+    }
+
+    .fb_dialog_content .touchable_button {
+        background: linear-gradient(from(#4267B2), to(#2a4887));
+        background-clip: padding-box;
+        border: 1px solid #29487d;
+        border-radius: 3px;
+        display: inline-block;
+        line-height: 18px;
+        margin-top: 3px;
+        max-width: 85px;
+        padding: 4px 12px;
+        position: relative
+    }
+
+    .fb_dialog_content .dialog_header .touchable_button input {
+        background: none;
+        border: none;
+        color: #fff;
+        font: bold 12px Helvetica, sans-serif;
+        margin: 2px -12px;
+        padding: 2px 6px 3px 6px;
+        text-shadow: rgba(0, 30, 84, .296875) 0 -1px 0
+    }
+
+    .fb_dialog_content .dialog_header .header_center {
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 18px;
+        text-align: center;
+        vertical-align: middle
+    }
+
+    .fb_dialog_content .dialog_content {
+        background: url(https://static.xx.fbcdn.net/rsrc.php/v3/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;
+        border: 1px solid #4a4a4a;
+        border-bottom: 0;
+        border-top: 0;
+        height: 150px
+    }
+
+    .fb_dialog_content .dialog_footer {
+        background: #f5f6f7;
+        border: 1px solid #4a4a4a;
+        border-top-color: #ccc;
+        height: 40px
+    }
+
+    #fb_dialog_loader_close {
+        float: left
+    }
+
+    .fb_dialog.fb_dialog_mobile .fb_dialog_close_button {
+        text-shadow: rgba(0, 30, 84, .296875) 0 -1px 0
+    }
+
+    .fb_dialog.fb_dialog_mobile .fb_dialog_close_icon {
+        visibility: hidden
+    }
+
+    #fb_dialog_loader_spinner {
+        animation: rotateSpinner 1.2s linear infinite;
+        background-color: transparent;
+        background-image: url(https://static.xx.fbcdn.net/rsrc.php/v3/yD/r/t-wz8gw1xG1.png);
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        height: 24px;
+        width: 24px
+    }
+
+    @keyframes rotateSpinner {
+        0% {
+            transform: rotate(0deg)
+        }
+        100% {
+            transform: rotate(360deg)
+        }
+    }
+
+    .fb_iframe_widget {
+        display: inline-block;
+        position: relative
+    }
+
+    .fb_iframe_widget span {
+        display: inline-block;
+        position: relative;
+        text-align: justify
+    }
+
+    .fb_iframe_widget iframe {
+        position: absolute
+    }
+
+    .fb_iframe_widget_fluid_desktop, .fb_iframe_widget_fluid_desktop span, .fb_iframe_widget_fluid_desktop iframe {
+        max-width: 100%
+    }
+
+    .fb_iframe_widget_fluid_desktop iframe {
+        min-width: 220px;
+        position: relative
+    }
+
+    .fb_iframe_widget_lift {
+        z-index: 1
+    }
+
+    .fb_iframe_widget_fluid {
+        display: inline
+    }
+
+    .fb_iframe_widget_fluid span {
+        width: 100%
+    }</style>
+</head>
+<body onload="javascript:makePopups()" class="v35 webkit" data-gr-c-s-loaded="true" cz-shortcut-listen="true">
+<div class="wrapper"><img src="assets/x.gif" id="msfilter" alt="">
+    <div id="dynamic_header"></div>
+    <div id="header">
+        <div id="mtop"><a href="village1.php" id="n1" accesskey="1"><img src="assets/x.gif" alt="Overview"></a><a
+                href="village2.php" id="n2" accesskey="2"><img src="assets/x.gif" alt="Village Center"></a><a
+                href="map.php" id="n3" accesskey="3"><img src="assets/x.gif" alt="Map"></a><a href="statistics.php"
+                                                                                              id="n4" accesskey="4"><img
+                src="assets/x.gif" alt="Statistics"></a>
+            <div id="n5" class="i3"><a class="reports" href="report.php" accesskey="5"><img src="assets/x.gif" class="l"
+                                                                                            alt="Reports"
+                                                                                            onmouseout="vil_closeDescription()"></a><a
+                    class="messages" href="msg.php" accesskey="6"><img src="assets/x.gif" class="r" alt="Messages"></a>
+            </div>
+            <a href="plus.php" id="plus"><img src="assets/x.gif" id="btn_plus" class="active" alt="Gold"><b><font
+                    color="#FF6F0F">Gold</font></b></a>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div id="mid">
+        <div id="side_navi"><a id="logo" href="#"><img src="assets/x.gif" alt="Zravian"></a><img
+                class="time_of_day night" alt="Night" src="assets/x.gif">
+            <p><a href="sindex.php?noredir"><span class="icn" style="background-position:0">&nbsp;</span>Home</a><a
+                    href="#" onclick="return showManual(0,0);"><span class="icn" style="background-position:-10px">&nbsp;</span>Instructions</a><a
+                    href="profile.php"><span class="icn" style="background-position:-20px">&nbsp;</span>Profile</a><a
+                    data-no-instant="" href="logout.php"><span class="icn"
+                                                               style="background-position:-30px">&nbsp;</span>Log
+                Out</a></p>
+            <p><a href="/alliance.php"><span class="icn" style="background-position:-40px">&nbsp;</span>Alliance</a><a
+                    href="https://discord.gg/QnaYZmy" target="_blank"><span class="icn"
+                                                                            style="background-position:-50px">&nbsp;</span>Discord
+                chat</a></p>
+            <form id="tos" action="/terms.php" method="post" target="_blank"><input type="hidden" name="uid"
+                                                                                    value="126"><input type="hidden"
+                                                                                                       name="serv"
+                                                                                                       value="s3">
+                <p><a href="#" onclick="document.getElementById('tos').submit()"><span class="icn"
+                                                                                       style="background-position:-80px">&nbsp;</span>ToS</a>
+                </p></form>
+            <p><a href="notes.php"><span class="icn" style="background-position:-90px">&nbsp;</span>Notebook</a><a
+                    href="links.php"><span class="icn" style="background-position:-100px">&nbsp;</span>Links</a></p>
+            <p><a href="plus.php?t=2 "><b><font color="#FF6F0F">Zravian Plus</font></b></a><a href="plus.php"
+                                                                                              style="font-weight:700"><img
+                    src="/assets/x.gif" class="gold" alt="Gold"> 197</a><a href="silver.php"
+                                                                           style="font-weight:700"><img
+                    src="/assets/x.gif" class="silver" alt="Silver"> 464</a></p>
+            <p><a style="font-weight:700" target="_blank"
+                  href="http://www.gtop100.com/topsites/Travian/sitedetails/ZRAVIAN-BEST-PRIVATE-SERVER--FAST--NO-BUGS-94682?vote=1&amp;pingUsername=s3|126">Vote
+                1!<span style="color:red;margin-left:10px">+</span><img src="/assets/x.gif" class="gold"
+                                                                        alt="gold">50</a><a style="font-weight:700"
+                                                                                            target="_blank"
+                                                                                            href="http://www.arena-top100.com/index.php?a=in&amp;u=Nuclei&amp;id=s3|SwissRhino">Vote
+                2!<span style="color:red;margin-left:10px">+</span><img src="/assets/x.gif" class="gold"
+                                                                        alt="gold">50</a></p>
+            <p><a href="plus.php" style="color:#f00;font-weight:700">2x GOLD ACTION!</a></p></div>
+        <div id="content" class="village1">
+            <h1><a id="cone" href="?upgtog" alt="Click here to disable Upgrade Mode"
+                   title="Click here to disable Upgrade Mode"></a>SwissRhino's village<br>
+                <div id="loyality" class="cap">(capital)</div>
+            </h1>
+            <map name="rx" id="rx">
+                <area href="village1.php?id=1&amp;k=24f4e" coords="101,33,28" shape="circle" alt="Woodcutter level 10">
+                <area href="village1.php?id=2&amp;k=24f4e" coords="165,32,28" shape="circle" alt="Cropland level 14">
+                <area href="village1.php?id=3&amp;k=24f4e" coords="224,46,28" shape="circle" alt="Woodcutter level 10">
+                <area href="village1.php?id=4&amp;k=24f4e" coords="46,63,28" shape="circle" alt="Iron Mine level 4">
+                <area href="village1.php?id=5&amp;k=24f4e" coords="138,74,28" shape="circle" alt="Clay Pit level 10">
+                <area href="village1.php?id=6&amp;k=24f4e" coords="203,94,28" shape="circle" alt="Clay Pit level 11">
+                <area href="village1.php?id=7&amp;k=24f4e" coords="262,86,28" shape="circle" alt="Iron Mine level 10">
+                <area href="village1.php?id=8&amp;k=24f4e" coords="31,117,28" shape="circle" alt="Cropland level 2">
+                <area href="village1.php?id=9&amp;k=24f4e" coords="83,110,28" shape="circle" alt="Cropland level 3+1">
+                <area href="village1.php?id=10&amp;k=24f4e" coords="214,142,28" shape="circle" alt="Iron Mine level 10">
+                <area href="village1.php?id=11&amp;k=24f4e" coords="269,146,28" shape="circle"
+                      alt="Iron Mine level 9+1">
+                <area href="village1.php?id=12&amp;k=24f4e" coords="42,171,28" shape="circle" alt="Cropland level 2">
+                <area href="village1.php?id=13&amp;k=24f4e" coords="93,164,28" shape="circle" alt="Cropland level 2">
+                <area href="village1.php?id=14&amp;k=24f4e" coords="160,184,28" shape="circle"
+                      alt="Woodcutter level 10">
+                <area href="village1.php?id=15&amp;k=24f4e" coords="239,199,28" shape="circle" alt="Cropland level 12">
+                <area href="village1.php?id=16&amp;k=24f4e" coords="87,217,28" shape="circle" alt="Clay Pit level 10">
+                <area href="village1.php?id=17&amp;k=24f4e" coords="140,231,28" shape="circle"
+                      alt="Woodcutter level 10">
+                <area href="village1.php?id=18&amp;k=24f4e" coords="190,232,28" shape="circle" alt="Clay Pit level 10">
+                <area href="village2.php" coords="144,131,36" shape="circle" alt="Village Center">
+            </map>
+            <div id="village_map" class="f3">
+                <img src="assets/x.gif" class="reslevel rf1 level10" alt="Woodcutter level 10">
+                <img src="assets/x.gif" class="reslevel rf2 level14" alt="Cropland level 14">
+                <img src="assets/x.gif" class="reslevel rf3 level10" alt="Woodcutter level 10">
+                <img src="assets/x.gif" class="reslevel rf4 level4" alt="Iron Mine level 4">
+                <img src="assets/x.gif" class="reslevel rf5 level10" alt="Clay Pit level 10">
+                <img src="assets/x.gif" class="reslevel rf6 level11" alt="Clay Pit level 11">
+                <img src="assets/x.gif" class="reslevel rf7 level10" alt="Iron Mine level 10">
+                <img src="assets/x.gif" class="reslevel rf8 level2" alt="Cropland level 2">
+                <img src="assets/x.gif" class="reslevel rf9 level3" alt="Cropland level 3+1">
+                <img src="assets/x.gif" class="reslevel rf10 level10" alt="Iron Mine level 10">
+                <img src="assets/x.gif" class="reslevel rf11 level9" alt="Iron Mine level 9+1">
+                <img src="assets/x.gif" class="reslevel rf12 level2" alt="Cropland level 2">
+                <img src="assets/x.gif" class="reslevel rf13 level2" alt="Cropland level 2">
+                <img src="assets/x.gif" class="reslevel rf14 level10" alt="Woodcutter level 10">
+                <img src="assets/x.gif" class="reslevel rf15 level12" alt="Cropland level 12">
+                <img src="assets/x.gif" class="reslevel rf16 level10" alt="Clay Pit level 10">
+                <img src="assets/x.gif" class="reslevel rf17 level10" alt="Woodcutter level 10">
+                <img src="assets/x.gif" class="reslevel rf18 level10" alt="Clay Pit level 10">
+                <img id="resfeld" usemap="#rx" src="assets/x.gif" alt="">
+            </div>
+            <div id="map_details">
+                <table id="movements" cellpadding="1" cellspacing="1">
+                    <thead>
+                    <tr>
+                        <th colspan="3">Troop movements :</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="typ">
+                            <a href="build.php?id=39"><img src="assets/x.gif" class="def1" alt="Incoming reinforcements"
+                                                           \=""></a>
+                            <span class="d1">»</span>
+                        </td>
+                        <td>
+                            <div class="mov"><span class="d1">1 Reinforcement</span></div>
+                            <div class="dur_r">in <span id="timer1">0:00:14</span></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="typ">
+                            <a href="build.php?id=39"><img src="assets/x.gif" class="att2" alt="Sent attack" \=""></a>
+                            <span class="a2">«</span>
+                        </td>
+                        <td>
+                            <div class="mov"><span class="a2">1 attack&nbsp;</span></div>
+                            <div class="dur_r">in <span id="timer1">0:01:09</span></div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table id="production" cellpadding="1" cellspacing="1">
+                    <thead>
+                    <tr>
+                        <th colspan="4">Production :</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="ico"><img class="r1" src="assets/x.gif" alt="Lumber"></td>
+                        <td class="res">Lumber:</td>
+                        <td class="num">128,000</td>
+                        <td class="per">per hour</td>
+                    </tr>
+                    <tr>
+                        <td class="ico"><img class="r2" src="assets/x.gif" alt="Clay"></td>
+                        <td class="res">Clay:</td>
+                        <td class="num">140,800</td>
+                        <td class="per">per hour</td>
+                    </tr>
+                    <tr>
+                        <td class="ico"><img class="r3" src="assets/x.gif" alt="Iron"></td>
+                        <td class="res">Iron:</td>
+                        <td class="num">90,720</td>
+                        <td class="per">per hour</td>
+                    </tr>
+                    <tr>
+                        <td class="ico"><img class="r4" src="assets/x.gif" alt="Crop"></td>
+                        <td class="res">Crop:</td>
+                        <td class="num">96,871</td>
+                        <td class="per">per hour</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <table id="troops" cellpadding="1" cellspacing="1">
+                    <thead>
+                    <tr>
+                        <th colspan="3">Units:</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td class="ico"><a href="build.php?id=39"><img class="unit u4" src="assets/x.gif"
+                                                                       alt="Equites Legati"></a></td>
+                        <td class="num">1,514</td>
+                        <td class="un">Equites Legati</td>
+                    </tr>
+                    <tr>
+                        <td class="ico"><a href="build.php?id=39"><img class="unit u8" src="assets/x.gif"
+                                                                       alt="Fire Catapult"></a></td>
+                        <td class="num">1,250</td>
+                        <td class="un">Fire Catapult</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <table cellpadding="1" cellspacing="1" id="building_contract">
+                <thead>
+                <tr>
+                    <th colspan="3">Construction: <a href="village1.php?bfs&amp;k=24f4e" title="Complete construction and research in this village immediately
+Costs 2 Gold"><img class="clock" alt="Complete construction and research in this village immediately
+Costs 2 Gold" src="assets/x.gif"></a></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="ico"><a href="?id=2331&amp;d&amp;k=24f4e"><img src="assets/x.gif" class="del"
+                                                                              alt="Cancel"></a></td>
+                    <td><a class="buildlink" href="?id=27&amp;k=24f4e">Academy (level 16)</a></td>
+                    <td>Finished in <span id="timer1">0:01:48</span> at 21:51:28</td>
+                </tr>
+                <tr>
+                    <td class="ico"><a href="?id=2334&amp;d&amp;k=24f4e"><img src="assets/x.gif" class="del"
+                                                                              alt="Cancel"></a></td>
+                    <td><a class="buildlink" href="?id=11&amp;k=24f4e">Iron Mine (level 10)</a></td>
+                    <td>Finished in <span id="timer1">0:03:20</span> at 21:53:00</td>
+                </tr>
+                <tr>
+                    <td class="ico"><a href="?id=2335&amp;d&amp;k=24f4e"><img src="assets/x.gif" class="del"
+                                                                              alt="Cancel"></a></td>
+                    <td><a class="buildlink" href="?id=9&amp;k=24f4e">Cropland (level 4)</a></td>
+                    <td>Finished in <span id="timer1">0:03:26</span> at 21:53:06</td>
+                </tr>
+                <tr>
+                    <td class="ico"><a href="?id=2332&amp;d&amp;k=24f4e"><img src="assets/x.gif" class="del"
+                                                                              alt="Cancel"></a></td>
+                    <td><a class="buildlink" href="?id=27&amp;k=24f4e">Academy (level 17)</a></td>
+                    <td>Finished in <span id="timer1">0:04:23</span> at 21:54:03</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="side_info">
+            <table cellpadding="1" cellspacing="1" id="vlist">
+                <thead>
+                <tr>
+                    <td colspan="3"><b><a href="/village4.php">Villages</a>:</b></td>
+                    <td style="text-align:center;color:#999;font-size:120%"><a id="prevvil" href="?vid=4207">«</a> | <a
+                            id="nextvil" href="?vid=4207">»</a></td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="dot  hl">♦</td>
+                    <td class="link">
+                        <div><a href="?vid=4007" style="text-decoration:underline">SwissRhino's village</a></div>
+                    </td>
+                    <td class="aligned_coords">
+                        <div class="cox">(20</div>
+                        <div class="pi">|</div>
+                        <div class="coy">6)</div>
+                    </td>
+                    <td><a href="build.php?bid=17&amp;vid2=4007"><img src="assets/x.gif" class="r4"
+                                                                      alt="Send goods"></a><a href="v2v.php?id=4007">
+                        <img src="assets/x.gif" class="iReport iReport2" alt="Send troops!" style="height:12px;"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="dot">♦</td>
+                    <td class="link">
+                        <div><a href="?vid=4207">New village</a></div>
+                    </td>
+                    <td class="aligned_coords">
+                        <div class="cox">(21</div>
+                        <div class="pi">|</div>
+                        <div class="coy">6)</div>
+                    </td>
+                    <td><a href="build.php?bid=17&amp;vid2=4207"><img src="assets/x.gif" class="r4"
+                                                                      alt="Send goods"></a><a href="v2v.php?id=4207">
+                        <img src="assets/x.gif" class="iReport iReport2" alt="Send troops!" style="height:12px;"></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div align="center" style="position: absolute; left: -850px; top: 35px;"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div id="res">
+        <div id="resWrap">
+            <table cellpadding="1" cellspacing="1">
+                <tbody>
+                <tr>
+                    <td><img src="assets/x.gif" class="r1" alt="Lumber"></td>
+                    <td id="l4" title="128000">4148921/10240000</td>
+                    <td><img src="assets/x.gif" class="r2" alt="Clay"></td>
+                    <td id="l3" title="140800">1375229/10240000</td>
+                    <td><img src="assets/x.gif" class="r3" alt="Iron"></td>
+                    <td id="l2" title="90720">1034975/10240000</td>
+                    <td><img src="assets/x.gif" class="r4" alt="Crop"></td>
+                    <td id="l1" title="96871">779718/5120000</td>
+                </tr>
+                <tr>
+                    <td colspan="6"></td>
+                    <td><img src="assets/x.gif" class="r5" alt="Wheat consumption"></td>
+                    <td>105113/201984</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="stime">
+        <div id="ltime">
+            <div id="ltimeWrap">Calculated in <b>8</b> ms<br>Server time <span id="timer2" class="b">21:49:39</span>
+            </div>
+        </div>
+    </div>
+    <div id="ce"></div>
+    <script type="text/javascript">init();</script>
+    <div style="height:160px"></div>
+</div>
+<div id="vil_mouseover" class="hide"></div>
+<script type="text/ecmascript">
+    function kp(evt) {
+        switch (evt.keyCode) {
+            case 33:
+                document.getElementById("prevvil").click();
+                break;
+            case 34:
+                document.getElementById("nextvil").click();
+                break;
+        }
+    }
+
+    if (window.document.addEventListener) window.document.addEventListener("keydown", kp, false); else window.document.attachEvent("onkeydown", kp);
+</script>
+
+<!--ins class="adsbygoogle" style="display:block;margin:auto;width:728px;height:90px" data-ad-client="ca-pub-4393571721361914" data-ad-slot="5987660188"></ins> <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script-->
+<div style="margin:auto;width:80%;min-width:950px;height:71px;border-top:1px solid #ddd;font-size:80%">
+    <div id="fb-root" class=" fb_reset">
+        <div style="position: absolute; top: -10000px; width: 0px; height: 0px;">
+            <div></div>
+        </div>
+    </div>
+    <script type="text/javascript">var a, b = document.getElementsByTagName("script")[0];
+    document.getElementById("facebook-jssdk") || (a = document.createElement("script"), a.id = "facebook-jssdk", a.src = "//connect.facebook.net/en_GB/all.js#xfbml=1", b.parentNode.insertBefore(a, b));</script>
+    <div style="float:left" class="fb-like-box fb_iframe_widget" data-href="http://facebook.com/zravian"
+         data-width="300" data-height="55" data-show-faces="false" data-stream="false" data-header="false"
+         fb-xfbml-state="rendered"
+         fb-iframe-plugin-query="app_id=&amp;container_width=0&amp;header=false&amp;height=55&amp;href=http%3A%2F%2Ffacebook.com%2Fzravian&amp;locale=en_GB&amp;sdk=joey&amp;show_faces=false&amp;stream=false&amp;width=300">
+        <span style="vertical-align: bottom; width: 300px; height: 70px;"><iframe name="f21c7902c22dc74" width="300px"
+                                                                                  height="55px"
+                                                                                  title="fb:like_box Facebook Social Plugin"
+                                                                                  frameborder="0"
+                                                                                  allowtransparency="true"
+                                                                                  allowfullscreen="true" scrolling="no"
+                                                                                  allow="encrypted-media"
+                                                                                  src="https://www.facebook.com/plugins/like_box.php?app_id=&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter.php%3Fversion%3D46%23cb%3Df170d383e075934%26domain%3Ds3.zravian.com%26origin%3Dhttps%253A%252F%252Fs3.zravian.com%252Ff20dbddc7368088%26relation%3Dparent.parent&amp;container_width=0&amp;header=false&amp;height=55&amp;href=http%3A%2F%2Ffacebook.com%2Fzravian&amp;locale=en_GB&amp;sdk=joey&amp;show_faces=false&amp;stream=false&amp;width=300"
+                                                                                  style="border: none; visibility: visible; width: 300px; height: 70px;"
+                                                                                  class=""></iframe></span></div>
+    <span style="float:right;color:#375FA5">© Zravian 2020</span>
+</div>
+
+</body>
+</html>

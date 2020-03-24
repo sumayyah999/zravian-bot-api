@@ -1,5 +1,7 @@
+import re
 from village_center import VillageCenter
 from village_resources import VillageResources
+
 
 def coords_from_vid(vid):
     vid -= 1
@@ -45,6 +47,7 @@ class Village:
 
     def update_from_soup(self, soup):
         self.k = parse_k(soup)
+        self.account.events.update_from_soup(soup, village=self)
         if soup.page == 'village1.php':
             self.resources.update_from_soup(soup)
         if soup.page == 'village2.php':
@@ -59,3 +62,14 @@ def parse_k(soup):
     if index == -1:
         raise Exception
     return soup_str[index + 7:index + 7 + 5]
+
+
+# Given a page, it returns the vid of the selected village or None if the account has only 1 village
+def parse_current_vid(soup):
+    side_info = soup.find('div', {'id': 'side_info'})
+    if side_info is None:
+        return None
+
+    vid_link = side_info.find('a', {'style': 'text-decoration:underline'})
+    # href="?vid=4007"
+    return int(re.search('\?vid=(.*)', vid_link['href']).group(1))

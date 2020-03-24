@@ -1,6 +1,5 @@
 # File TODOs
 # TODO(@alexvelea): Add support for multiple buildings of same type (granary, warehouse)
-# TODO(@alexvelea): Check for "Build a Main Building" and add fixed positions for mainB
 # TODO(@alexvelea): Add wall support
 # TODO(@alexvelea): Add support for race specific buildings
 # TODO(@alexvelea): Add The rest of the buildings (extended{Rax,Stable}), Palace

@@ -24,7 +24,6 @@ def construct_building(credentials, village, location_id, building):
         raise Exception
 
     # Make sure the spot it's empty
-    print(str(village.buildings[location_id]))
     if village.buildings[location_id].building.name != center.Buildings.empty.name:
         raise Exception
 
@@ -40,7 +39,14 @@ def construct_building(credentials, village, location_id, building):
 
 # demo does not use K
 def demolish_building(credentials, village, location_id):
-    credentials.call(page='build.php', params={'id': 26}, data={'drbid': location_id, 'ok.x': 0, 'ok.y': 0})
+    main_building = next(iter(village.center.find(center.Buildings.mainB)), None)
+    if main_building is None:
+        raise Exception
+
+    if main_building.lvl < 10:
+        raise Exception
+
+    credentials.call(page='build.php', params={'id': main_building.location_id}, data={'drbid': location_id, 'ok.x': 0, 'ok.y': 0})
 
     # get demo finish time here
     return True

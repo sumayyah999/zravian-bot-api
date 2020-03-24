@@ -1,10 +1,15 @@
 from .village import Village, vid_from_coords
+from .event_queue import EventQueue
 
 
 class Account:
     def __init__(self, uid):
         self.uid = uid
         self.villages = []
+        self.events = EventQueue()
+
+    def get_village_by_vid(self, vid):
+        return next(filter(lambda x: x.vid == vid, self.villages), None)
 
     def update_villages(self, credentials):
         soup = credentials.call("profile.php", {'uid': self.uid})

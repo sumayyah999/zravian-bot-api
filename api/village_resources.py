@@ -18,7 +18,7 @@ class Resources:
     crop = ResourceType('Cropland', 4)
 
     @classmethod
-    def get_resource(cls, name):
+    def get_by_name(cls, name):
         for res in [cls.wood, cls.clay, cls.iron, cls.crop]:
             if name == res.name:
                 return res
@@ -77,7 +77,7 @@ def parse_resources(soup):
 
     for index, raw_res in enumerate(soup.findAll('area', {'shape': 'circle'})[0:18]):
         [res_name, res_lvl] = str(raw_res.get('alt')).split(' level ')
-        res = Resources.get_resource(res_name)
+        res = Resources.get_by_name(res_name)
         lvl, plus_lvl = utils.lvl_to_int(res_lvl)
 
         instance = ResourceInstance(res, lvl, plus_lvl, index + 1)
