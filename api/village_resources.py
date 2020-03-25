@@ -38,6 +38,7 @@ class ResourceInstance:
                                        self.location_id)
 
 
+# TODO(@alexvelea) Merge self.buildings this with VillageCenter
 class VillageResources:
     url = 'village1.php'
     id_offset = 1

@@ -1,12 +1,13 @@
-# File TODOs
-# TODO(@alexvelea): Add support for multiple buildings of same type (granary, warehouse)
-# TODO(@alexvelea): Add wall support
-# TODO(@alexvelea): Add support for race specific buildings
-# TODO(@alexvelea): Add The rest of the buildings (extended{Rax,Stable}), Palace
 from functools import reduce
 import utils
 
 
+# TODO(@alexvelea) Move this class to an assets file
+# TODO(@alexvelea) Add some more info, such as
+# - capital only
+# - max level
+# - multiple build? (for granary, warehouse)
+# - requirements?
 class BuildingType:
     def __init__(self, name, bid):
         self.name = name
@@ -16,6 +17,7 @@ class BuildingType:
         return self.name
 
 
+# TODO(@alexvelea) Add The rest of the buildings extended Rax, Palace, wall as well as race-specific buildings
 class Buildings:
     empty = BuildingType('Empty place', 0)
 
@@ -77,6 +79,7 @@ class BuildingInstance:
                                        self.location_id)
 
 
+# TODO(@alexvelea) Merge this with a subpart of VillageResources
 class VillageCenter:
     # Village center buildings have IDs from [19, 38]
     # Rally point has ID 39

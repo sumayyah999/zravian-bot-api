@@ -40,6 +40,7 @@ class Credentials:
         soup = self.call("profile.php")
         return int(soup.find('input', {'name': 'uid'})['value'])
 
+    # TODO(@alexvelea) add a page enum
     def call(self, page, params=None, data=None):
         url = self.url + page
         r = requests.post(url, cookies=self.cookies, params=params, data=data)
@@ -48,6 +49,8 @@ class Credentials:
         return soup
 
 
+# TODO(@alexvelea) Check if cookies are actually good
+# TODO(@alexvelea) Dump new cookies in config if login with username+password
 def init_credentials(credentials_file_path):
     with open(credentials_file_path) as json_file:
         data = json.load(json_file)

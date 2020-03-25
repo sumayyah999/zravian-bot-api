@@ -64,6 +64,7 @@ def parse_k(soup):
     return soup_str[index + 7:index + 7 + 5]
 
 
+# TODO(@alexvelea) Should I deprecate this?
 # Given a page, it returns the vid of the selected village or None if the account has only 1 village
 def parse_current_vid(soup):
     side_info = soup.find('div', {'id': 'side_info'})

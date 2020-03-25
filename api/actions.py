@@ -19,6 +19,7 @@ def upgrade_building(credentials, village, location_id):
 
 
 def construct_building(credentials, village, location_id, building):
+    # TODO(@alexvelea) Rethink this for granary/warehouse
     # Check if building is already constructed
     if len(village.center.find(building)):
         raise Exception
