@@ -7,7 +7,7 @@ from api.credentials import init_credentials
 from api.event_queue import parse_buildings_queue
 from api.account import Account
 from api.actions import construct_building, upgrade_building, demolish_building
-import api.village_center as center
+from api.assets import Building
 
 
 class TestEventQueue(TestCase):
@@ -22,13 +22,23 @@ class TestEventQueue(TestCase):
         village = account.get_village_by_vid(4207)
         village.force_update(credentials)
 
-        assert construct_building(credentials, village, 32, center.Buildings.cranny)
+        assert construct_building(credentials, village, 32, Building.cranny)
         assert upgrade_building(credentials, village, 32)
+        b = village.buildings[32]
+        assert b.name == Building.cranny.name
+        assert b.lvl == 0
+        assert b.plus_lvl == 2
 
         actions_left = 2
         num_sleep = 0
         while actions_left > 0:
-            actions_left -= account.events.broadcast_finished_events()
+            num = account.events.broadcast_finished_events()
+            if num:
+                actions_left -= num
+                village.force_update(credentials)
+                print(b, " event_queue test @ building")
+                assert b.lvl >= 2 - actions_left
+
             time.sleep(0.5)
             num_sleep += 1
 
@@ -40,6 +50,11 @@ class TestEventQueue(TestCase):
         time.sleep(2)
         demolish_building(credentials, village, 32)
         time.sleep(1)
+
+        village.force_update(credentials)
+        assert b.name == Building.empty.name
+        assert b.lvl == 0
+        assert b.plus_lvl == 0
 
 
 class Test(TestCase):

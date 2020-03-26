@@ -1,18 +1,20 @@
-import village_center as center
+import assets
 from .credentials import Page
 
 
 def upgrade_building(credentials, village, location_id):
     page = Page.overview if location_id <= 18 else Page.center
-    old_building = village.buildings[location_id]
+
+    building = village.buildings[location_id]
+    old_lvl = building.lvl
+    old_plus_lvl = building.lvl
     old_k = village.k
 
     assert village.k is not None
     soup = credentials.call(page=page, params={'vid': village.vid, 'id': location_id, 'k': village.k})
     village.update_from_soup(soup)
-    new_building = village.buildings[location_id]
 
-    if old_building.lvl + old_building.plus_lvl == new_building.lvl + new_building.plus_lvl:
+    if old_lvl + old_plus_lvl == building.lvl + building.plus_lvl:
         return False
 
     if village.k == old_k:
@@ -23,17 +25,17 @@ def upgrade_building(credentials, village, location_id):
 def construct_building(credentials, village, location_id, building):
     # TODO(@alexvelea) Rethink this for granary/warehouse
     # Check if building is already constructed
-    if len(village.center.find(building)):
+    if len(village.buildings.find(building)):
         raise Exception
 
     # Make sure the spot it's empty
-    if village.buildings[location_id].building.name != center.Buildings.empty.name:
+    if village.buildings[location_id].name != assets.Building.empty.name:
         raise Exception
 
     assert village.k is not None
     old_k = village.k
     soup = credentials.call(page=Page.center,
-                            params={'vid': village.vid, 'id': location_id, 'b': building.id, 'k': village.k})
+                            params={'vid': village.vid, 'id': location_id, 'b': building.bid, 'k': village.k})
     village.update_from_soup(soup)
     new_building = village.buildings[location_id]
 
@@ -47,7 +49,7 @@ def construct_building(credentials, village, location_id, building):
 
 # demo does not use K
 def demolish_building(credentials, village, location_id):
-    main_building = next(iter(village.center.find(center.Buildings.mainB)), None)
+    main_building = next(iter(village.buildings.find(assets.Building.mainB)), None)
     if main_building is None:
         raise Exception
 

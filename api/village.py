@@ -1,7 +1,7 @@
 import re
 
-from .village_center import VillageCenter
-from .village_resources import VillageResources
+from .buildings import VillageBuildings
+from .resources import VillageResources
 from .credentials import Page
 
 
@@ -35,9 +35,8 @@ class Village:
         self.name = name
         [self.x, self.y] = coords_from_vid(self.vid)
 
-        self.buildings = []
-        self.resources = VillageResources(0)
-        self.center = VillageCenter()
+        self.buildings = VillageBuildings(self)
+        self.resources = VillageResources(self)
         self.k = None
 
     def __str__(self):
@@ -52,12 +51,8 @@ class Village:
         self.k = self.k if new_k is None else new_k
 
         self.account.events.update_from_soup(soup, village=self)
-        if soup.page == Page.overview:
-            self.resources.update_from_soup(soup)
-        if soup.page == Page.center:
-            self.center.update_from_soup(soup)
-
-        self.buildings = [None] + self.resources.buildings + self.center.buildings
+        self.buildings.update_from_soup(soup)
+        self.resources.update_from_soup(soup)
 
 
 def parse_k(soup):
