@@ -61,7 +61,10 @@ class Buildings:
 
     @classmethod
     def get_by_name(cls, building_name):
-        [building] = filter(lambda x: x.name == building_name, cls.all)
+        building = next(filter(lambda x: x.name == building_name, cls.all), None)
+        if building is None:
+            print("Can't find building: ", building_name)
+            raise Exception()
         return building
 
 

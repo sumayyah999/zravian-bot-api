@@ -21,7 +21,7 @@ class Test(TestCase):
 
 class TestAccount(TestCase):
     def test_update_villages(self):
-        args = get_parser().parse_args(args=["--credentials", "./tests/configs/credentials_login_example.json"])
+        args = get_parser().parse_args(args=["--credentials", "./tests/configs/credentials_static_login.json"])
         credentials = init_credentials(args.credentials_file_path)
 
         account = Account(uid=1)

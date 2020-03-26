@@ -2,7 +2,23 @@
 import json
 import requests
 from bs4 import BeautifulSoup
-from functools import reduce
+
+
+class BadLogin(Exception):
+    pass
+
+
+class BadCookies(Exception):
+    pass
+
+
+class BadCredentialsFile(Exception):
+    no_url = 0
+    no_cookies_or_login = 1
+    incomplete_login = 2
+
+    def __init__(self, e_type):
+        self.e_type = e_type
 
 
 class Credentials:
@@ -30,15 +46,17 @@ class Credentials:
         session.close()
 
         if bs.find('fieldset', {'class': 'err'}):
-            # TODO(@alexvelea): make this an exception
-            print('Bad login!')
-            return None
+            raise BadLogin
 
         return Credentials(url, cookies)
 
     def get_own_uid(self):
         soup = self.call("profile.php")
-        return int(soup.find('input', {'name': 'uid'})['value'])
+        node = soup.find('input', {'name': 'uid'})
+        if node:
+            return int(node['value'])
+        else:
+            return None
 
     # TODO(@alexvelea) add a page enum
     def call(self, page, params=None, data=None):
@@ -49,31 +67,24 @@ class Credentials:
         return soup
 
 
-# TODO(@alexvelea) Check if cookies are actually good
 # TODO(@alexvelea) Dump new cookies in config if login with username+password
+# TODO(@alexvelea) Add a new 'fallback_on_login' = true/false in case cookies are wrong to force-create new ones
 def init_credentials(credentials_file_path):
     with open(credentials_file_path) as json_file:
         data = json.load(json_file)
 
-        ok = True
         if 'url' not in data:
-            # TODO(@alexvelea): make this an exception
-            print('URL not specified in credentials file')
-            ok = False
+            # No URL specified
+            raise BadCredentialsFile
 
         if 'cookies' not in data and 'login_info' not in data:
-            # TODO(@alexvelea): make this an exception
-            print("'cookies' or 'login_info' not specified in credentials file")
-            return None
+            # 'cookies' or 'login_info' not specified in credentials file
+            raise BadCredentialsFile
 
         if 'login_info' in data:
             if 'username' not in data['login_info'] or 'password' not in data['login_info']:
-                # TODO(@alexvelea): make this an exception
-                print("Login info provided without data")
-                ok = False
-
-        if not ok:
-            return None
+                # Login info provided without data
+                raise BadCredentialsFile
 
         if 'cookies' in data:
             cookies_str = data['cookies']
@@ -82,9 +93,11 @@ def init_credentials(credentials_file_path):
                 aux = itr.split('=')
                 cookies[aux[0]] = aux[1]
 
-            return Credentials(data['url'], cookies)
+            credentials = Credentials(data['url'], cookies)
+            if credentials.get_own_uid() is None:
+                # Invalid cookies. Delete them to fallback to basic-login
+                raise BadCookies
 
-        if 'username' in data['login_info'] and 'password' in data['login_info']:
-            return Credentials.by_login(data['url'], data['login_info'])
+            return credentials
 
-        return None
+        return Credentials.by_login(data['url'], data['login_info'])

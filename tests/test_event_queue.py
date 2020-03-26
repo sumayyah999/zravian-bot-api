@@ -26,9 +26,15 @@ class TestEventQueue(TestCase):
         assert upgrade_building(credentials, village, 32)
 
         actions_left = 2
+        num_sleep = 0
         while actions_left > 0:
             actions_left -= account.events.broadcast_finished_events()
             time.sleep(0.5)
+            num_sleep += 1
+
+        assert num_sleep < 2 * 13.5
+        assert num_sleep < 2 * 12.5
+        assert num_sleep < 2 * 11.5
 
         demolish_building(credentials, village, 32)
         time.sleep(2)
