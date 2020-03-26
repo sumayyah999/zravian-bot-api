@@ -27,6 +27,7 @@ class Page:
     center = "village2.php"
     profile = "profile.php"
     building = "build.php"
+    move_troops = "v2v.php"
 
 
 class Credentials:

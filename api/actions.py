@@ -2,6 +2,20 @@ import assets
 from .credentials import Page
 
 
+def move_units(credentials, move_type, village, target_village, units):
+    params = {'vid': village.vid}
+    data = {'s1.x': '0', 's1.y': '0', 'c': str(move_type), 'k': village.k, 'id': target_village.vid}
+    t = [0] * 11
+    for (unit, num) in units.items():
+        t[unit.uid] = max(num, 0)
+    for i in range(1, 11):
+        data["t[{0}]".format(i)] = str(t[i])
+
+    assert village.k is not None
+    soup = credentials.call(page=Page.move_troops, params=params, data=data)
+    village.update_from_soup(soup)
+
+
 def upgrade_building(credentials, village, location_id):
     page = Page.overview if location_id <= 18 else Page.center
 
