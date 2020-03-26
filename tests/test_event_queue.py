@@ -11,11 +11,11 @@ import api.village_center as center
 
 
 class TestEventQueue(TestCase):
+    # Online version - construct cranny, level up cranny, wait for finish events, demolish 2 levels of cranny
     def test_broadcast_finished_events(self):
-        args = get_parser().parse_args(args=["--credentials", "./tests/configs/credentials_dynamic_login.json"])
-        credentials = init_credentials(args.credentials_file_path)
-        own_uid = credentials.get_own_uid()
+        credentials = init_credentials('./tests/configs/credentials_dynamic_login.json')
 
+        own_uid = credentials.get_own_uid()
         account = Account(own_uid)
         account.update_villages(credentials)
 
@@ -43,6 +43,7 @@ class TestEventQueue(TestCase):
 
 
 class Test(TestCase):
+    # Offline version - parse building construction queue from html dump
     def test_parse_buildings_queue(self):
         with open('./tests/configs/village2_example2_html_dump.txt', 'r') as content_file:
             content = content_file.read()

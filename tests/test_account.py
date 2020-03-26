@@ -2,12 +2,12 @@ from unittest import TestCase
 from bs4 import BeautifulSoup
 
 from api.account import parse_profile_page, Account
-from api.arguments import get_parser
 from api.credentials import init_credentials
 
 
 class Test(TestCase):
-    def test_parse_resources(self):
+    # Offline version - test from html dump
+    def test_account_from_profile_page(self):
         with open('./tests/configs/profile_example_html_dump.txt', 'r') as content_file:
             content = content_file.read()
             soup = BeautifulSoup(content, 'html.parser')
@@ -20,9 +20,9 @@ class Test(TestCase):
 
 
 class TestAccount(TestCase):
-    def test_update_villages(self):
-        args = get_parser().parse_args(args=["--credentials", "./tests/configs/credentials_static_login.json"])
-        credentials = init_credentials(args.credentials_file_path)
+    # Online version - request profile of multi hunter
+    def test_account_from_profile_page(self):
+        credentials = init_credentials('./tests/configs/credentials_static_cookies.json')
 
         account = Account(uid=1)
         account.update_villages(credentials)

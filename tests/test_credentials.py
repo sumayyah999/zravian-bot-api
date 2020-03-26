@@ -1,47 +1,100 @@
 from unittest import TestCase
+import json
+import os
 
-from api.credentials import init_credentials, BadLogin, BadCookies
+from api.credentials import init_credentials, parse_credentials, BadLogin, BadCookies, BadCredentialsFile
 from api.arguments import get_parser
-from api.account import Account
 
 
 class Test(TestCase):
+    # Login by cookies simulating command line arguments
     def test_credentials_cookie(self):
         args = get_parser().parse_args(args=["--credentials", "./tests/configs/credentials_static_cookies.json"])
-        credentials = init_credentials(args.credentials_file_path)
+        init_credentials(args.credentials_file_path, write_new_cookies=False)
 
-        assert credentials.url == "https://s3.zravian.com/"
+    # Login by username simulating command line arguments
+    def test_credentials_login(self):
+        args = get_parser().parse_args(args=["--credentials", "./tests/configs/credentials_static_login.json"])
+        init_credentials(args.credentials_file_path, write_new_cookies=False)
 
-        assert "_ga" in credentials.cookies
-        assert "_gid" in credentials.cookies
-        assert "PHPSESSID" in credentials.cookies
-        assert "lvl" in credentials.cookies
-        assert "_gat" in credentials.cookies
+    # Bad structures for credentials file
+    def test_credentials_bad_data(self):
+        url = ''
+        cookies = ''
+        login_info = {'username': '', 'password': ''}
 
-    def test_credentials_bad_login(self):
-        args = get_parser().parse_args(args=["--credentials", "./tests/configs/credentials_static_login_bad.json"])
         try:
-            init_credentials(args.credentials_file_path)
+            parse_credentials({'cookies': cookies, 'login_info': login_info})
+            raise Exception
+        except BadCredentialsFile as e:
+            assert e.e_type == BadCredentialsFile.no_url
+
+        try:
+            parse_credentials({'url': url})
+            raise Exception
+        except BadCredentialsFile as e:
+            assert e.e_type == BadCredentialsFile.no_cookies_or_login
+
+        try:
+            parse_credentials({'url': url, 'login_info': {}})
+            raise Exception
+        except BadCredentialsFile as e:
+            assert e.e_type == BadCredentialsFile.incomplete_login
+
+        try:
+            parse_credentials({'url': url, 'cookies': cookies, 'login_info': {}})
+            raise Exception
+        except BadCredentialsFile as e:
+            assert e.e_type == BadCredentialsFile.incomplete_login
+
+        try:
+            parse_credentials({'url': url, 'cookies': cookies, 'login_info': {'username': ''}})
+            raise Exception
+        except BadCredentialsFile as e:
+            assert e.e_type == BadCredentialsFile.incomplete_login
+
+        try:
+            parse_credentials({'url': url, 'cookies': cookies, 'login_info': {'password': ''}})
+            raise Exception
+        except BadCredentialsFile as e:
+            assert e.e_type == BadCredentialsFile.incomplete_login
+
+        try:
+            parse_credentials({'url': url, 'cookies': cookies, 'fallback_on_login': True})
+            raise Exception
+        except BadCredentialsFile as e:
+            assert e.e_type == BadCredentialsFile.fallback_with_no_login
+
+    # Detect bad cookies + fallback for username
+    def test_credentials_bad_login(self):
+        try:
+            init_credentials('./tests/configs/credentials_static_login_bad.json')
+            raise Exception
         except BadLogin:
             pass
 
+    # Detect bad cookies
     def test_credentials_bad_cookies(self):
-        args = get_parser().parse_args(args=["--credentials", "./tests/configs/credentials_static_cookies_bad.json"])
         try:
-            init_credentials(args.credentials_file_path)
+            init_credentials('./tests/configs/credentials_static_cookies_bad.json')
+            raise Exception
         except BadCookies:
             pass
 
+    # Login by username, dump cookies, login by cookies
+    def test_dump_cookies(self):
+        aux_file_path = "./tests/configs/tmp-credentials.json"
+        with open("./tests/configs/credentials_static_login.json") as json_file:
+            data = json.load(json_file)
 
-class TestCredentials(TestCase):
-    def test_get_own_uid(self):
-        args = get_parser().parse_args(args=["--credentials", "./tests/configs/credentials_static_cookies.json"])
-        credentials = init_credentials(args.credentials_file_path)
-        own_uid = credentials.get_own_uid()
+        data['credentials_file_path'] = aux_file_path
+        parse_credentials(data)
 
-        account = Account(own_uid)
-        account.update_villages(credentials)
-        user_villages_str = str(list(map(lambda x: str(x), account.villages)))
+        with open(aux_file_path) as json_file:
+            data = json.load(json_file)
 
-        expected = """["api-static's village (20,7)"]"""
-        assert user_villages_str == expected
+        data.pop('fallback_on_login')
+        data.pop('login_info')
+        parse_credentials(data)
+
+        os.remove(aux_file_path)
