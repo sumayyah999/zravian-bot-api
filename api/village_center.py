@@ -1,4 +1,5 @@
 from functools import reduce
+
 import utils
 
 
@@ -87,7 +88,6 @@ class VillageCenter:
     # Village center buildings have IDs from [19, 38]
     # Rally point has ID 39
     # Wall has ID 40
-    url = 'village2.php'
     id_offset = 19
 
     def __init__(self):

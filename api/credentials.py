@@ -22,6 +22,13 @@ class BadCredentialsFile(Exception):
         self.e_type = e_type
 
 
+class Page:
+    overview = "village1.php"
+    center = "village2.php"
+    profile = "profile.php"
+    building = "build.php"
+
+
 class Credentials:
     def __init__(self, url, cookies):
         self.url = url
@@ -55,14 +62,13 @@ class Credentials:
         return reduce(lambda x, y: x + '; ' + y, map(lambda p: p[0] + "=" + p[1], self.cookies.items()))
 
     def get_own_uid(self):
-        soup = self.call("profile.php")
+        soup = self.call(Page.profile)
         node = soup.find('input', {'name': 'uid'})
         if node:
             return int(node['value'])
         else:
             return None
 
-    # TODO(@alexvelea) add a page enum
     def call(self, page, params=None, data=None):
         url = self.url + page
         r = requests.post(url, cookies=self.cookies, params=params, data=data)
@@ -71,7 +77,6 @@ class Credentials:
         return soup
 
 
-# TODO(@alexvelea) Dump new cookies in config if login with username+password
 def init_credentials(credentials_file_path, write_new_cookies=True):
     with open(credentials_file_path) as json_file:
         data = json.load(json_file)
@@ -110,7 +115,7 @@ def parse_credentials(json_data, write_new_cookies=True):
             if fallback_on_login is False:
                 raise BadCookies
             else:
-                print("Bad cookies! Trying to login using ")
+                print("Bad cookies! Trying to login using username+password")
         else:
             return credentials
 

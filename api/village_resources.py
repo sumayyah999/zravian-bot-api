@@ -1,4 +1,5 @@
 import time
+
 import utils
 
 
@@ -40,7 +41,6 @@ class ResourceInstance:
 
 # TODO(@alexvelea) Merge self.buildings this with VillageCenter
 class VillageResources:
-    url = 'village1.php'
     id_offset = 1
 
     def __init__(self, timestamp):

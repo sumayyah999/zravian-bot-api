@@ -1,5 +1,6 @@
 from .village import Village, vid_from_coords
 from .event_queue import EventQueue
+from .credentials import Page
 
 
 class Account:
@@ -12,7 +13,7 @@ class Account:
         return next(filter(lambda x: x.vid == vid, self.villages), None)
 
     def update_villages(self, credentials):
-        soup = credentials.call("profile.php", {'uid': self.uid})
+        soup = credentials.call(Page.profile, {'uid': self.uid})
         new_villages = parse_profile_page(soup)
 
         # Merge villages
