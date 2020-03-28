@@ -31,28 +31,34 @@ class Building:
     crop = BuildingType('Cropland', 4)
 
     # Economy Infrastructure
-    mainB = BuildingType('Main Building', 15)
-    granary = BuildingType('Granary', 11)
     warehouse = BuildingType('Warehouse', 10)
+    granary = BuildingType('Granary', 11)
     marketplace = BuildingType('Marketplace', 17)
+    trade_office = BuildingType("Trade Office", 28)
+
+    # Infrastructure
+    mainB = BuildingType('Main Building', 15)
     cranny = BuildingType('Cranny', 23)
+    embassy = BuildingType('Embassy', 18)
+    hero_mansion = BuildingType("Hero's Mansion", 37)
 
     # Military
     barracks = BuildingType('Barracks', 19)
     stable = BuildingType('Stable', 20)
     siege = BuildingType('Siege Workshop', 21)
-    rally = BuildingType('Rally Point', 16)
-    # TODO(@alexvelea) Fix this is ids
-    tournament_square = BuildingType('Tournament Square', -1)
-    horse_upkeep = BuildingType('Horse Drinking Pool', -1)
+    blacksmith = BuildingType('Blacksmith', 12)
+    armoury = BuildingType('Armoury', 13)
 
     # Military infrastructure
     academy = BuildingType('Academy', 22)
-    armoury = BuildingType('Armoury', 13)
-    blacksmith = BuildingType('Blacksmith', 12)
+    rally = BuildingType('Rally Point', 16)
+    tournament_square = BuildingType('Tournament Square', 14)
+    horse_upkeep = BuildingType('Horse Drinking Pool', 41)
+    brewery = BuildingType("Brewery", 35)
 
     # Expansion
     residence = BuildingType('Residence', 25)
+    palace = BuildingType("Palace", 26)
     hall = BuildingType('Town Hall', 24)
 
     # Resources
@@ -65,10 +71,11 @@ class Building:
     all = [
         empty,
         wood, clay, iron, crop,
-        mainB, granary, warehouse, marketplace, cranny,
-        barracks, stable, siege, rally, tournament_square, horse_upkeep,
-        academy, armoury, blacksmith,
-        residence, hall,
+        warehouse, granary,  marketplace, trade_office,
+        mainB, cranny, embassy, hero_mansion,
+        barracks, stable, siege, blacksmith, armoury,
+        academy, rally, tournament_square, horse_upkeep, brewery,
+        residence, palace, hall,
         bonusWood, bonusClay, bonusIron, bonusCrop1, bonusCrop2
     ]
 
