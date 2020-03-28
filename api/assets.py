@@ -109,12 +109,13 @@ class UnitType:
             self.__dict__.update(whole_object.__dict__)
 
     @classmethod
-    def from_init(cls, name, uid, tribe, unit_type, atk, inf_def, cav_def, speed, loot, upkeep, cost):
+    def from_init(cls, name, uid, tribe, unit_type, train_building, atk, inf_def, cav_def, speed, loot, upkeep, cost):
         unit = UnitType()
         unit.name = name
         unit.uid = uid
         unit.tribe = tribe
         unit.unit_type = unit_type
+        unit.train_building = train_building
         unit.atk = atk
         unit.inf_def = inf_def
         unit.cav_def = cav_def
@@ -133,6 +134,8 @@ class UnitType:
     def __ne__(self, other):
         return not(self == other)
 
+    def __str__(self):
+        return self.name
 
 class Unit:
     settle = 4
@@ -140,16 +143,16 @@ class Unit:
     attack_normal = 3
     raid = 4
 
-    legionnaire = UnitType.from_init("Legionnaire", 1, Tribe.romans, UnitType.infantry, 40, 35, 50, 6, 50, 1, [120, 100, 150, 30])
-    praetorian = UnitType.from_init("Praetorian", 2, Tribe.romans, UnitType.infantry, 30, 65, 35, 5, 20, 1, [100, 130, 160, 70])
-    imperian = UnitType.from_init("Imperian", 3, Tribe.romans, UnitType.infantry, 70, 40, 25, 7, 50, 1, [150, 160, 210, 80])
-    legati = UnitType.from_init("Equites Legati", 4, Tribe.romans, UnitType.cavalry, 0, 20, 10, 16, 0, 2, [140, 160, 20, 40])
-    imperatoris = UnitType.from_init("Equites Imperatoris", 5, Tribe.romans, UnitType.cavalry, 120, 65, 50, 14, 100, 3, [550, 440, 320, 100])
-    caesaris = UnitType.from_init("Equites Caesaris", 6, Tribe.romans, UnitType.cavalry, 180, 80, 105, 10, 70, 4, [550, 640, 800, 180])
-    roman_ram = UnitType.from_init("Battering ram", 7, Tribe.romans, UnitType.infantry, 60, 30, 75, 4, 0, 3, [900, 360, 500, 70])
-    roman_catapult = UnitType.from_init("Fire Catapult", 8, Tribe.romans, UnitType.infantry, 75, 60, 10, 3, 0, 6, [950, 1350, 600, 90])
-    roman_chief = UnitType.from_init("Senator", 9, Tribe.romans, UnitType.infantry, 50, 40, 30, 4, 0, 5, [30750, 27200, 45000, 37500])
-    roman_settler = UnitType.from_init("Settler", 10, Tribe.romans, UnitType.infantry, 0, 80, 80, 5, 3000, 1, [5800, 5300, 7200, 5500])
+    legionnaire = UnitType.from_init("Legionnaire", 1, Tribe.romans, UnitType.infantry, Building.barracks, 40, 35, 50, 6, 50, 1, [120, 100, 150, 30])
+    praetorian = UnitType.from_init("Praetorian", 2, Tribe.romans, UnitType.infantry, Building.barracks, 30, 65, 35, 5, 20, 1, [100, 130, 160, 70])
+    imperian = UnitType.from_init("Imperian", 3, Tribe.romans, UnitType.infantry, Building.barracks, 70, 40, 25, 7, 50, 1, [150, 160, 210, 80])
+    legati = UnitType.from_init("Equites Legati", 4, Tribe.romans, UnitType.cavalry, Building.stable, 0, 20, 10, 16, 0, 2, [140, 160, 20, 40])
+    imperatoris = UnitType.from_init("Equites Imperatoris", 5, Tribe.romans, UnitType.cavalry, Building.stable, 120, 65, 50, 14, 100, 3, [550, 440, 320, 100])
+    caesaris = UnitType.from_init("Equites Caesaris", 6, Tribe.romans, UnitType.cavalry, Building.stable, 180, 80, 105, 10, 70, 4, [550, 640, 800, 180])
+    roman_ram = UnitType.from_init("Battering ram", 7, Tribe.romans, UnitType.infantry, Building.siege, 60, 30, 75, 4, 0, 3, [900, 360, 500, 70])
+    roman_catapult = UnitType.from_init("Fire Catapult", 8, Tribe.romans, UnitType.infantry, Building.siege, 75, 60, 10, 3, 0, 6, [950, 1350, 600, 90])
+    roman_chief = UnitType.from_init("Senator", 9, Tribe.romans, UnitType.infantry, Building.residence, 50, 40, 30, 4, 0, 5, [30750, 27200, 45000, 37500])
+    roman_settler = UnitType.from_init("Settler", 10, Tribe.romans, UnitType.infantry, Building.residence, 0, 80, 80, 5, 3000, 1, [5800, 5300, 7200, 5500])
 
     romans = \
         [legionnaire, praetorian, imperian,

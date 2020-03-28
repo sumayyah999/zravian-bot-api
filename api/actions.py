@@ -2,6 +2,10 @@ import assets
 from .credentials import Page
 
 
+class ActionException(Exception):
+    pass
+
+
 def move_units(credentials, move_type, village, target_village, units):
     params = {'vid': village.vid}
     data = {'s1.x': '0', 's1.y': '0', 'c': str(move_type), 'k': village.k, 'id': target_village.vid}
@@ -14,6 +18,30 @@ def move_units(credentials, move_type, village, target_village, units):
     assert village.k is not None
     soup = credentials.call(page=Page.move_troops, params=params, data=data)
     village.update_from_soup(soup)
+
+
+# TODO(@alexvelea): Test if the units are researched
+# TODO(@alexvelea): Test if the required number resources are met
+def train(credentials, village, units):
+    train_buildings = {}
+    for unit, num in units.items():
+        if num <= 0:
+            continue
+
+        train_buildings.setdefault(unit.train_building, []).append((unit, num))
+
+    for building, units in train_buildings.items():
+        b = next(iter(village.buildings.find(building)), None)
+        if b is None:
+            raise ActionException("Required building {0} for training {1}".format(building, list(map(lambda x: str(x[0]), units))))
+
+        params = {'vid': village.vid, 'id': b.location_id}
+        data = {'s1.x': '1', 's1.y': '1'}
+        for unit, num in units:
+            data["tf[{0}]".format(unit.uid)] = str(num)
+
+        soup = credentials.call(page=Page.building, params=params, data=data)
+        village.update_from_soup(soup)
 
 
 def upgrade_building(credentials, village, location_id):
