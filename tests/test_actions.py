@@ -43,3 +43,15 @@ class Test(TestCase):
         actions.train(credentials, village,
                       units={Unit.legati: 4, Unit.imperatoris: 5, Unit.caesaris: 6,
                              Unit.roman_ram: 7})
+
+    def test_research(self):
+        credentials = init_credentials('./configs/credentials_dynamic_login.json')
+
+        own_uid = credentials.get_own_uid()
+        account = Account(own_uid)
+        account.update_villages(credentials)
+
+        village = account.get_village_by_vid(4007)
+        village.force_update(credentials)
+
+        actions.research_unit(credentials, village, Unit.praetorian)

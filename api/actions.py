@@ -20,6 +20,19 @@ def move_units(credentials, move_type, village, target_village, units):
     village.update_from_soup(soup)
 
 
+def research_unit(credentials, village, unit):
+    b = next(iter(village.buildings.find(assets.Building.academy)), None)
+    if b is None:
+        raise ActionException(
+            "Required building {0} for researching {1}".format(b, str(unit)))
+
+    params = {'k': village.k, 'id': b.location_id, 'a': unit.uid}
+
+    assert village.k is not None
+    soup = credentials.call(page=Page.building, params=params)
+    village.update_from_soup(soup)
+
+
 # TODO(@alexvelea): Test if the units are researched
 # TODO(@alexvelea): Test if the required number resources are met
 def train(credentials, village, units):
