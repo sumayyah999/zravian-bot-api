@@ -20,17 +20,39 @@ def move_units(credentials, move_type, village, target_village, units):
     village.update_from_soup(soup)
 
 
+def simple_building_action(credentials, village, building, a):
+    params = {'k': village.k, 'id': building.location_id, 'a': a}
+
+    assert village.k is not None
+    soup = credentials.call(page=Page.building, params=params)
+    village.update_from_soup(soup)
+
+
+def upgrade_attack(credentials, village, unit):
+    b = next(iter(village.buildings.find(assets.Building.blacksmith)), None)
+    if b is None:
+        raise ActionException(
+            "Required building {0} for upgrading the attack of {1}".format(b, str(unit)))
+
+    simple_building_action(credentials, village, b, unit.uid)
+
+
+def upgrade_defence(credentials, village, unit):
+    b = next(iter(village.buildings.find(assets.Building.armoury)), None)
+    if b is None:
+        raise ActionException(
+            "Required building {0} for upgrading the defence of {1}".format(b, str(unit)))
+
+    simple_building_action(credentials, village, b, unit.uid)
+
+
 def research_unit(credentials, village, unit):
     b = next(iter(village.buildings.find(assets.Building.academy)), None)
     if b is None:
         raise ActionException(
             "Required building {0} for researching {1}".format(b, str(unit)))
 
-    params = {'k': village.k, 'id': b.location_id, 'a': unit.uid}
-
-    assert village.k is not None
-    soup = credentials.call(page=Page.building, params=params)
-    village.update_from_soup(soup)
+    simple_building_action(credentials, village, b, unit.uid)
 
 
 # TODO(@alexvelea): Test if the units are researched

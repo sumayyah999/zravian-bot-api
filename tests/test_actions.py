@@ -55,3 +55,16 @@ class Test(TestCase):
         village.force_update(credentials)
 
         actions.research_unit(credentials, village, Unit.praetorian)
+
+    def test_upgrades(self):
+        credentials = init_credentials('./configs/credentials_dynamic_login.json')
+
+        own_uid = credentials.get_own_uid()
+        account = Account(own_uid)
+        account.update_villages(credentials)
+
+        village = account.get_village_by_vid(4007)
+        village.force_update(credentials)
+
+        actions.upgrade_attack(credentials, village, Unit.imperian)
+        actions.upgrade_defence(credentials, village, Unit.imperian)
