@@ -4,69 +4,79 @@ import copy
 class BuildingType:
     # TODO(@alexvelea) Add some more info, such as
     # - capital only
-    # - max level
     # - multiple build? (for granary, warehouse)
     # - requirements?
 
-    def __init__(self, name=None, bid=None, whole_object=None):
+    def __init__(self, name=None, bid=None, max_level=None, base_price=None, cost_grow=None, whole_object=None,):
         if whole_object is None:
             self.name = name
             self.bid = bid
+            self.max_level = max_level
+            self.base_price = base_price
+            self.cost_grow = cost_grow
         else:
             self.__dict__.update(whole_object.__dict__)
+
+    def resources_for_lvl(self, lvl):
+        cost_multiplier = self.cost_grow ** (lvl - 1)
+        return list(map(lambda x: 5 * round(x * cost_multiplier / 5), self.base_price))
 
     def __str__(self):
         return self.name
 
 
-# TODO(@alexvelea) Add The rest of the buildings extended Rax, Palace, wall as well as race-specific buildings
+# TODO(@alexvelea) Add The rest of the buildings extended Rax, wall as well as race-specific buildings
 # Collection of all building types as well as various info for API calls
 class Building:
+    cost_default = 1.28
+    cost_resources = 1.67
+    cost_resources_bonus = 1.8
+
     empty = BuildingType('Empty place', 0)
 
     # Overview Resources
-    wood = BuildingType('Woodcutter', 1)
-    clay = BuildingType('Clay Pit', 2)
-    iron = BuildingType('Iron Mine', 3)
-    crop = BuildingType('Cropland', 4)
+    wood = BuildingType('Woodcutter', 1, max_level=20, base_price=[40, 100, 50, 60], cost_grow=cost_resources)
+    clay = BuildingType('Clay Pit', 2, max_level=20, base_price=[80, 40, 80, 50], cost_grow=cost_resources)
+    iron = BuildingType('Iron Mine', 3, max_level=20, base_price=[100, 80, 30, 60], cost_grow=cost_resources)
+    crop = BuildingType('Cropland', 4, max_level=20, base_price=[70, 90, 70, 20], cost_grow=cost_resources)
 
     # Economy Infrastructure
-    warehouse = BuildingType('Warehouse', 10)
-    granary = BuildingType('Granary', 11)
-    marketplace = BuildingType('Marketplace', 17)
-    trade_office = BuildingType("Trade Office", 28)
+    warehouse = BuildingType('Warehouse', 10, max_level=20, base_price=[130, 160, 90, 40], cost_grow=cost_default)
+    granary = BuildingType('Granary', 11, max_level=20, base_price=[80, 100, 70, 20], cost_grow=cost_default)
+    marketplace = BuildingType('Marketplace', 17, max_level=20, base_price=[80, 70, 120, 70], cost_grow=cost_default)
+    trade_office = BuildingType("Trade Office", 28, max_level=20, base_price=[1400, 1330, 1200, 400], cost_grow=cost_default)
 
     # Infrastructure
-    mainB = BuildingType('Main Building', 15)
-    cranny = BuildingType('Cranny', 23)
-    embassy = BuildingType('Embassy', 18)
-    hero_mansion = BuildingType("Hero's Mansion", 37)
+    mainB = BuildingType('Main Building', 15, max_level=20, base_price=[70, 40, 60, 20], cost_grow=cost_default)
+    cranny = BuildingType('Cranny', 23, max_level=10, base_price=[40, 50, 30, 10], cost_grow=cost_default)
+    embassy = BuildingType('Embassy', 18, max_level=20, base_price=[180, 130, 150, 80], cost_grow=cost_default)
+    hero_mansion = BuildingType("Hero's Mansion", 37, max_level=20, base_price=[700, 670, 700, 240], cost_grow=1.33)
 
     # Military
-    barracks = BuildingType('Barracks', 19)
-    stable = BuildingType('Stable', 20)
-    siege = BuildingType('Siege Workshop', 21)
-    blacksmith = BuildingType('Blacksmith', 12)
-    armoury = BuildingType('Armoury', 13)
+    barracks = BuildingType('Barracks', 19, max_level=20, base_price=[210, 140, 260, 120], cost_grow=cost_default)
+    stable = BuildingType('Stable', 20, max_level=20, base_price=[260, 140, 220, 100], cost_grow=cost_default)
+    siege = BuildingType('Siege Workshop', 21, max_level=20, base_price=[460, 510, 600, 320], cost_grow=cost_default)
+    blacksmith = BuildingType('Blacksmith', 12, max_level=20, base_price=[170, 200, 380, 130], cost_grow=cost_default)
+    armoury = BuildingType('Armoury', 13, max_level=20, base_price=[130, 210, 410, 130], cost_grow=cost_default)
 
     # Military infrastructure
-    academy = BuildingType('Academy', 22)
-    rally = BuildingType('Rally Point', 16)
-    tournament_square = BuildingType('Tournament Square', 14)
-    horse_upkeep = BuildingType('Horse Drinking Pool', 41)
-    brewery = BuildingType("Brewery", 35)
+    academy = BuildingType('Academy', 22, max_level=20, base_price=[220, 160, 90, 40], cost_grow=cost_default)
+    rally = BuildingType('Rally Point', 16, max_level=20, base_price=[110, 160, 90, 70], cost_grow=cost_default)
+    tournament_square = BuildingType('Tournament Square', 14, max_level=20, base_price=[1750, 2250, 1530, 240], cost_grow=cost_default)
+    horse_upkeep = BuildingType('Horse Drinking Pool', 41, max_level=20, base_price=[780, 420, 660, 540], cost_grow=cost_default)
+    brewery = BuildingType("Brewery", 35, max_level=10, base_price=[1460, 930, 1250, 1740], cost_grow=1.4)
 
     # Expansion
-    residence = BuildingType('Residence', 25)
-    palace = BuildingType("Palace", 26)
-    hall = BuildingType('Town Hall', 24)
+    residence = BuildingType('Residence', 25, max_level=20, base_price=[580, 460, 350, 180], cost_grow=cost_default)
+    palace = BuildingType("Palace", 26, max_level=20, base_price=[550, 800, 750, 250], cost_grow=cost_default)
+    hall = BuildingType('Town Hall', 24, max_level=20, base_price=[1250, 1110, 1260, 600], cost_grow=cost_default)
 
     # Resources
-    bonusWood = BuildingType('Sawmill', 5)
-    bonusClay = BuildingType('Brickworks', 6)
-    bonusIron = BuildingType('Iron Foundry', 7)
-    bonusCrop1 = BuildingType('Flour Mill', 8)
-    bonusCrop2 = BuildingType('Bakery', 9)
+    bonusWood = BuildingType('Sawmill', 5, max_level=5, base_price=[520, 380, 290, 90], cost_grow=cost_resources_bonus)
+    bonusClay = BuildingType('Brickworks', 6, max_level=5, base_price=[440, 480, 320, 50], cost_grow=cost_resources_bonus)
+    bonusIron = BuildingType('Iron Foundry', 7, max_level=5, base_price=[200, 450, 510, 120], cost_grow=cost_resources_bonus)
+    bonusCrop1 = BuildingType('Flour Mill', 8, max_level=5, base_price=[500, 440, 380, 1240], cost_grow=cost_resources_bonus)
+    bonusCrop2 = BuildingType('Bakery', 9, max_level=5, base_price=[1200, 1480, 870, 1600], cost_grow=cost_resources_bonus)
 
     all = [
         empty,

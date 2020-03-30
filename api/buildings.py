@@ -19,6 +19,12 @@ class BuildingInstance(BuildingType):
                                        self.lvl if self.plus_lvl == 0 else "{0}+{1}".format(self.lvl, self.plus_lvl),
                                        self.location_id)
 
+    def resources_to_upgrade(self):
+        return self.resources_for_lvl(self.lvl + self.plus_lvl + 1)
+
+    def is_max_lvl(self):
+        return self.max_level >= self.plus_lvl + self.lvl
+
     def update(self, oth):
         self.__dict__.update(oth.__dict__)
 
