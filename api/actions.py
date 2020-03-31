@@ -6,17 +6,50 @@ class ActionException(Exception):
     pass
 
 
-def move_units(credentials, move_type, village, target_village, units):
+def throw_catapult_warnings(move_type, village, units, catapult_buildings):
+    if move_type != assets.Unit.attack_normal:
+        return
+
+    if units.get(assets.Unit.roman_catapult, 0) == 0:
+        if len(catapult_buildings):
+            raise ActionException("Catapult buildings specified but no catapults found")
+
+    if village.buildings.find(assets.Building.rally)[0].lvl == 20 and units.get(assets.Unit.roman_catapult) >= 20:
+        num_targets = 2
+    else:
+        num_targets = 1
+
+    if catapult_buildings is None:
+        raise ActionException("Expected {0} catapult target(s) but got none".format(num_targets))
+
+    if len(catapult_buildings) == num_targets:
+        return
+
+    raise ActionException("Expected {0} catapult target(s) but got {1}"
+          .format(num_targets, len(catapult_buildings)))
+
+
+# TODO(@alexvelea) If the rally point is lvl 20 no K is present on the returned page.
+def move_units(credentials, move_type, village, target_village, units, catapult_buildings=None):
+    throw_catapult_warnings(move_type, village, units, catapult_buildings)
+
     params = {'vid': village.vid}
     data = {'s1.x': '0', 's1.y': '0', 'c': str(move_type), 'k': village.k, 'id': target_village.vid}
     t = [0] * 11
     for (unit, num) in units.items():
         t[unit.uid] = max(num, 0)
     for i in range(1, 11):
-        data["t[{0}]".format(i)] = str(t[i])
+        data['t[{0}]'.format(i)] = str(t[i])
+
+    if catapult_buildings is not None:
+        for index, building in enumerate(catapult_buildings):
+            data['dtg' + ('' if index == 0 else '1')] = building.bid
+
+    print(params, data)
 
     assert village.k is not None
     soup = credentials.call(page=Page.move_troops, params=params, data=data)
+    village.k = None
     village.update_from_soup(soup)
 
 
@@ -25,6 +58,7 @@ def simple_building_action(credentials, village, building, a):
 
     assert village.k is not None
     soup = credentials.call(page=Page.building, params=params)
+    village.k = None
     village.update_from_soup(soup)
 
 

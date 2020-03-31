@@ -34,6 +34,9 @@ class Building:
 
     empty = BuildingType('Empty place', 0)
 
+    # Catapult target
+    random_target = BuildingType('Empty place', 99)
+
     # Overview Resources
     wood = BuildingType('Woodcutter', 1, max_level=20, base_price=[40, 100, 50, 60], cost_grow=cost_resources)
     clay = BuildingType('Clay Pit', 2, max_level=20, base_price=[80, 40, 80, 50], cost_grow=cost_resources)
