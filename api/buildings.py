@@ -1,12 +1,13 @@
 from functools import reduce, total_ordering
 
-from .assets import BuildingType, Building
+import assets
+from .assets import Building
 from .credentials import Page
 import utils
 
 
 @total_ordering
-class BuildingInstance(BuildingType):
+class BuildingInstance(assets.BuildingType):
     # plus_lvl refers to the number of levels under construction
     def __init__(self, building, lvl, plus_lvl, location_id):
         super().__init__(whole_object=building)
@@ -20,10 +21,19 @@ class BuildingInstance(BuildingType):
                                        self.lvl if self.plus_lvl == 0 else "{0}+{1}".format(self.lvl, self.plus_lvl),
                                        self.location_id)
 
-    # The ordering is done looking only at the lvl.
-    # This enables a workflow where you can select the "min" or "max" of multiple buildings based on lvl
+    # For comparing BuildingInstance with BuildingInstance
+    # - The ordering is done looking only at the lvl.
+    # - This enables a workflow where you can select the "min" or "max" of multiple buildings based on lvl
+    # For comparing BuildingInstance with BuildingType
+    # - return True if the 2 buildings are of the same type
+
     def __eq__(self, other):
-        return self.lvl + self.plus_lvl == other.lvl + other.plus_lvl
+        if type(other) == assets.BuildingType:
+            return self.bid == other.bid
+        elif type(other) == BuildingInstance:
+            return self.lvl + self.plus_lvl == other.lvl + other.plus_lvl
+        else:
+            raise Exception()
 
     def __lt__(self, other):
         return (self.lvl + self.plus_lvl) < (other.lvl + other.plus_lvl)

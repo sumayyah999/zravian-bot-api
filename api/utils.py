@@ -25,6 +25,11 @@ def countdown_to_sec(txt) -> int:
     return reduce(lambda x, y: x * 60 + y, map(lambda x: int(x), txt.split(':')))
 
 
+def sec_to_countdown(num_secs) -> str:
+    assert num_secs < 24*60*60
+    return f"{num_secs//(60*60)}:{(num_secs//60)%60:02d}:{num_secs%60:02d}"
+
+
 def comma_number_to_int(txt) -> int:
     """
         "29,394" -> 29394
@@ -32,3 +37,11 @@ def comma_number_to_int(txt) -> int:
     :return: int version
     """
     return reduce(lambda x, y: x * 1000 + y, map(lambda x: int(x), txt.split(',')))
+
+
+def get_server_time(soup):
+    return soup.find('span', {'id': 'timer2'}).text
+
+
+def at_time_from_in_time(soup, in_time):
+    return sec_to_countdown((1 + countdown_to_sec(in_time) + countdown_to_sec(get_server_time(soup))) % (24 * 60 * 60))

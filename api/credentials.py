@@ -75,6 +75,8 @@ class Credentials:
         r = requests.post(url, cookies=self.cookies, params=params, data=data)
         soup = BeautifulSoup(r.content, 'html.parser')
         soup.page = page
+        soup.params = params
+        soup.data = data
         return soup
 
 

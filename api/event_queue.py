@@ -2,29 +2,32 @@ import re
 import time
 
 import utils
+from credentials import Page
+from assets import Building
 
 
 class EventInstance:
-    def __init__(self, event_type, village, time_left, finish_at):
+    def __init__(self, event_type, village, in_time, at_time):
         self.event_type = event_type
-        self.finish_timestamp = time.time() + utils.countdown_to_sec(time_left)
-        self.finish_at = finish_at
+        self.finish_timestamp = time.time() + utils.countdown_to_sec(in_time)
+        self.at_time = at_time
         self.village = village
 
     def __eq__(self, other):
         return self.event_type == other.event_type and \
-               self.finish_at == other.finish_at and \
+               self.at_time == other.at_time and \
                self.village.vid == other.village.vid
 
     def __lt__(self, other):
         return self.finish_timestamp < other.finish_timestamp
 
     def __str__(self):
-        return self.event_type + " at " + self.finish_at + " in " + str(self.village)
+        return self.event_type + " at " + self.at_time + " in " + str(self.village)
 
 
 class EventQueue:
     BuildingFinished = "BuildingFinished"
+    BuildingDemolished = "BuildingDemolished"
 
     def __init__(self):
         self.queue = []
@@ -39,14 +42,29 @@ class EventQueue:
         return 0
 
     def update_from_soup(self, soup, village):
-        events = parse_buildings_queue(soup, village)
-        self.broadcast_finished_events()
+        events = []
+        if soup.page == Page.building and village.buildings[soup.params['id']] == Building.mainB:
+            events = parse_main_building_queue(soup, village)
+
+        if soup.page == Page.overview or soup.page == Page.center:
+            events = parse_building_construction_queue(soup, village)
 
         self.queue += [x for x in events if x not in self.queue]
         self.queue.sort()
 
 
-def parse_buildings_queue(soup, village):
+def parse_main_building_queue(soup, village):
+    b_table = soup.find('table', {'id': 'demolish'})
+    if b_table is None:
+        return []
+
+    in_time = b_table.find('span', {'id': 'timer1'}).text
+    at_time = utils.at_time_from_in_time(soup, in_time=in_time)
+
+    return [EventInstance(EventQueue.BuildingDemolished, village, in_time, at_time)]
+
+
+def parse_building_construction_queue(soup, village):
     b_table = soup.find('table', {'id': 'building_contract'})
 
     # check for empty queue
@@ -65,9 +83,9 @@ def parse_buildings_queue(soup, village):
         # lvl = int(q.group(2))
 
         q = re.search('Finished in (.*) at (.*)', tds[2].text)
-        time_left = q.group(1)
-        finish_at = q.group(2)
+        in_time = q.group(1)
+        at_time = q.group(2)
 
-        eq.append(EventInstance(EventQueue.BuildingFinished, village, time_left, finish_at))
+        eq.append(EventInstance(EventQueue.BuildingFinished, village, in_time, at_time))
 
     return eq

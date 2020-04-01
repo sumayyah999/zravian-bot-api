@@ -167,7 +167,7 @@ def demolish_building(credentials, village, location_id):
     if main_building.lvl < 10:
         raise Exception
 
-    credentials.call(page=Page.building, params={'vid': village.vid, 'id': main_building.location_id}, data={'drbid': location_id, 'ok.x': 0, 'ok.y': 0})
+    soup = credentials.call(page=Page.building, params={'vid': village.vid, 'id': main_building.location_id}, data={'drbid': location_id, 'ok.x': 0, 'ok.y': 0})
+    village.update_from_soup(soup)
 
-    # get demo finish time here
     return True
