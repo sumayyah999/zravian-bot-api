@@ -2,12 +2,11 @@ from unittest import TestCase
 from bs4 import BeautifulSoup
 import time
 
-from api.arguments import get_parser
 from api.credentials import init_credentials
-from api.event_queue import parse_building_construction_queue
+from api.event_queue import parse_building_construction_queue, EventQueue
 from api.account import Account
-from api.actions import construct_building, upgrade_building, demolish_building
-from api.assets import Building
+from api.actions import construct_building, upgrade_building, demolish_building, host_celebration
+from api.assets import Building, Celebration
 
 
 class TestEventQueue(TestCase):
@@ -84,6 +83,27 @@ class TestEventQueue(TestCase):
             num_sleep += 1
 
         assert num_sleep / 2 < 20
+
+    def test_celebration_events(self):
+        credentials = init_credentials('./configs/credentials_dynamic_login.json')
+
+        own_uid = credentials.get_own_uid()
+        account = Account(own_uid)
+        account.update_villages(credentials)
+
+        village = account.get_village_by_vid(4007)
+        village.force_update(credentials)
+
+        host_celebration(credentials, village, Celebration.small)
+
+        evq = account.events
+        found = False
+
+        for event in evq.queue:
+            if event.event_type == EventQueue.CelebrationCompleted and event.village.vid == village.vid:
+                found = True
+
+        assert found
 
 
 class Test(TestCase):

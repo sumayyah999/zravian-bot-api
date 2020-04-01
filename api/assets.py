@@ -157,6 +157,7 @@ class UnitType:
     def __str__(self):
         return self.name
 
+
 class Unit:
     settle = 4
     reinforce = 2
@@ -181,3 +182,15 @@ class Unit:
          roman_chief, roman_settler]
 
     all = romans
+
+
+class CelebrationType:
+    def __init__(self, name, cid, cost):
+        self.name = name
+        self.cid = cid
+        self.cost = cost
+
+
+class Celebration:
+    small = CelebrationType("Small celebration", 1, [6400, 6650, 5940, 1340])
+    big = CelebrationType("Large celebration", 2, [29700, 33250, 32000, 6700])

@@ -171,3 +171,15 @@ def demolish_building(credentials, village, location_id):
     village.update_from_soup(soup)
 
     return True
+
+
+def host_celebration(credentials, village, celebration_type):
+    town_hall = next(iter(village.buildings.find(assets.Building.hall)), None)
+    if town_hall is None:
+        raise Exception
+
+    if celebration_type.cid == assets.Celebration.big.cid:
+        if town_hall.lvl < 10:
+            raise Exception
+
+    simple_building_action(credentials, village, town_hall, celebration_type.cid)

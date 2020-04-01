@@ -28,6 +28,7 @@ class EventInstance:
 class EventQueue:
     BuildingFinished = "BuildingFinished"
     BuildingDemolished = "BuildingDemolished"
+    CelebrationCompleted = "CelebrationCompleted"
 
     def __init__(self):
         self.queue = []
@@ -44,13 +45,27 @@ class EventQueue:
     def update_from_soup(self, soup, village):
         events = []
         if soup.page == Page.building and village.buildings[soup.params['id']] == Building.mainB:
-            events = parse_main_building_queue(soup, village)
+            events += parse_main_building_queue(soup, village)
+
+        if soup.page == Page.building and village.buildings[soup.params['id']] == Building.hall:
+            events += parse_town_hall_queue(soup, village)
 
         if soup.page == Page.overview or soup.page == Page.center:
-            events = parse_building_construction_queue(soup, village)
+            events += parse_building_construction_queue(soup, village)
 
         self.queue += [x for x in events if x not in self.queue]
         self.queue.sort()
+
+
+def parse_town_hall_queue(soup, village):
+    b_table = soup.find('table', {'class': 'under_progress'})
+    if b_table is None:
+        return []
+
+    in_time = b_table.find('span', {'id': 'timer1'}).text
+    at_time = utils.at_time_from_in_time(soup, in_time=in_time)
+
+    return [EventInstance(EventQueue.CelebrationCompleted, village, in_time, at_time)]
 
 
 def parse_main_building_queue(soup, village):
