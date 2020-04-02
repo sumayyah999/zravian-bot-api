@@ -183,3 +183,25 @@ def host_celebration(credentials, village, celebration_type):
             raise Exception
 
     simple_building_action(credentials, village, town_hall, celebration_type.cid)
+
+
+def send_resources(credentials, village, target_village, resources):
+    market = next(iter(village.buildings.find(assets.Building.marketplace)), None)
+
+    if market is None:
+        raise Exception
+
+    params = {'id': market.location_id, 'vid': village.vid}
+    data = {
+        'act': '2',
+        'vid2': target_village.vid,
+        's1.x': '1',
+        's1.y': '1'
+    }
+
+    for index, num_res in enumerate(resources):
+        num_res = max(num_res, 0)
+        data[f'r{index+1}'] = num_res
+
+    soup = credentials.call(page=Page.building, params=params, data=data)
+    village.update_from_soup(soup)

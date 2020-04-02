@@ -5,7 +5,7 @@ import time
 from api.credentials import init_credentials
 from api.event_queue import parse_building_construction_queue, EventQueue
 from api.account import Account
-from api.actions import construct_building, upgrade_building, demolish_building, host_celebration
+from api.actions import construct_building, upgrade_building, demolish_building, host_celebration, send_resources
 from api.assets import Building, Celebration
 
 
@@ -104,6 +104,28 @@ class TestEventQueue(TestCase):
                 found = True
 
         assert found
+
+    def test_send_resources(self):
+        credentials = init_credentials('./configs/credentials_dynamic_login.json')
+
+        own_uid = credentials.get_own_uid()
+        account = Account(own_uid)
+        account.update_villages(credentials)
+
+        village = account.get_village_by_vid(4007)
+        target_village = account.get_village_by_vid(4207)
+        village.force_update(credentials)
+
+        send_resources(credentials, village, target_village, [1, 1, 1, 1])
+
+        evq = account.events
+        num = 0
+
+        for event in evq.queue:
+            if event.event_type == EventQueue.TradersArrived and event.village.vid == village.vid:
+                num += 1
+
+        assert num == 1
 
 
 class Test(TestCase):

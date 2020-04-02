@@ -29,6 +29,7 @@ class EventQueue:
     BuildingFinished = "BuildingFinished"
     BuildingDemolished = "BuildingDemolished"
     CelebrationCompleted = "CelebrationCompleted"
+    TradersArrived = "TradersArrived"
 
     def __init__(self):
         self.queue = []
@@ -50,6 +51,9 @@ class EventQueue:
         if soup.page == Page.building and village.buildings[soup.params['id']] == Building.hall:
             events += parse_town_hall_queue(soup, village)
 
+        if soup.page == Page.building and village.buildings[soup.params['id']] == Building.marketplace:
+            events += parse_market_queue(soup, village)
+
         if soup.page == Page.overview or soup.page == Page.center:
             events += parse_building_construction_queue(soup, village)
 
@@ -66,6 +70,27 @@ def parse_town_hall_queue(soup, village):
     at_time = utils.at_time_from_in_time(soup, in_time=in_time)
 
     return [EventInstance(EventQueue.CelebrationCompleted, village, in_time, at_time)]
+
+
+def parse_market_queue(soup, village):
+    traders = soup.findAll('table', {'class': 'traders'})
+    eq = []
+
+    for trader_soup in traders:
+        returning = len(trader_soup.findAll('span', {'class': 'none'})) == 1
+
+        if returning:
+            continue
+
+        target_village_soup = trader_soup.find('thead').findAll('a')[1]
+        target_village_vid = int(re.search('.*id=(.*)', target_village_soup['href']).group(1))
+
+        in_time = trader_soup.find('span', {'id': 'timer1'}).text
+        at_time = utils.at_time_from_in_time(soup, in_time=in_time)
+
+        eq.append(EventInstance(EventQueue.TradersArrived, village, in_time, at_time))
+
+    return eq
 
 
 def parse_main_building_queue(soup, village):
