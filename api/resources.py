@@ -16,11 +16,10 @@ class VillageResources:
         self.capacity = [0, 0, 0, 0]
 
     def __str__(self):
-        s = ""
-        s = s + "production: {0}\n".format(self.production)
-        s = s + "stored: {0}\n".format(self.stored)
-        s = s + "capacity: {0}\n".format(self.capacity)
-        return s
+        return f'prod:{self.production}, stored:{self.stored}, capacity:{self.capacity}'
+
+    def __repr__(self):
+        return f'VilResources({self.__str__()})'
 
     def update_from_soup(self, soup):
         self.timestamp = time.time()

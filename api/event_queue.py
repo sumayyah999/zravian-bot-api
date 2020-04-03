@@ -22,22 +22,31 @@ class EventInstance:
         return self.finish_timestamp < other.finish_timestamp
 
     def __str__(self):
-        return self.event_type + " at " + self.at_time + " in " + str(self.village)
+        return self.event_type + ' at ' + self.at_time + ' in ' + str(self.village)
+
+    def __repr__(self):
+        return f'Event(type:{self.event_type}, at:{self.at_time} in {self.village})'
 
 
 class EventQueue:
-    BuildingFinished = "BuildingFinished"
-    BuildingDemolished = "BuildingDemolished"
-    CelebrationCompleted = "CelebrationCompleted"
-    TradersArrived = "TradersArrived"
+    BuildingFinished = 'BuildingFinished'
+    BuildingDemolished = 'BuildingDemolished'
+    CelebrationCompleted = 'CelebrationCompleted'
+    TradersArrived = 'TradersArrived'
 
     def __init__(self):
         self.queue = []
 
+    def __str__(self):
+        return self.queue
+
+    def __repr__(self):
+        return f'EventQ({self.__str__()})'
+
     def broadcast_finished_events(self):
         current_time = time.time()
         if len(self.queue) and self.queue[0].finish_timestamp < current_time:
-            print("Broadcast ", str(self.queue[0]))
+            print('Broadcast ', self.queue[0])
             self.queue = self.queue[1:]
             return 1 + self.broadcast_finished_events()
 

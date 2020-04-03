@@ -26,7 +26,10 @@ class Account:
             self.villages.append(Village(self, vid, name))
 
     def __str__(self):
-        return map(lambda x: str(x), self.villages)
+        return f"{self.uid}"
+
+    def __repr__(self):
+        return f"Account(uid:{self.uid}, villages:{self.villages})"
 
 
 def parse_profile_page(soup):

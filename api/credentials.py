@@ -23,11 +23,11 @@ class BadCredentialsFile(Exception):
 
 
 class Page:
-    overview = "village1.php"
-    center = "village2.php"
-    profile = "profile.php"
-    building = "build.php"
-    move_troops = "v2v.php"
+    overview = 'village1.php'
+    center = 'village2.php'
+    profile = 'profile.php'
+    building = 'build.php'
+    move_troops = 'v2v.php'
 
 
 class Credentials:
@@ -60,7 +60,7 @@ class Credentials:
         return Credentials(url, cookies)
 
     def cookies_to_str(self):
-        return reduce(lambda x, y: x + '; ' + y, map(lambda p: p[0] + "=" + p[1], self.cookies.items()))
+        return reduce(lambda x, y: x + '; ' + y, map(lambda p: p[0] + '=' + p[1], self.cookies.items()))
 
     def get_own_uid(self):
         soup = self.call(Page.profile)
@@ -118,7 +118,7 @@ def parse_credentials(json_data, write_new_cookies=True):
             if fallback_on_login is False:
                 raise BadCookies
             else:
-                print("Bad cookies! Trying to login using username+password")
+                print('Bad cookies! Trying to login using username+password')
         else:
             return credentials
 

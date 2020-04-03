@@ -40,7 +40,10 @@ class Village:
         self.k = None
 
     def __str__(self):
-        return "{0} ({1},{2})".format(self.name, self.x, self.y)
+        return f'{self.vid}'
+
+    def __repr__(self):
+        return f'Village({self.name} ({self.x}, {self.y}))'
 
     def force_update(self, credentials):
         self.update_from_soup(credentials.call(Page.overview, params={'vid': self.vid}))
@@ -57,7 +60,7 @@ class Village:
 
 def parse_k(soup):
     soup_str = str(soup)
-    index = soup_str.find("&amp;k=")
+    index = soup_str.find('&amp;k=')
     if index == -1:
         return None
     return soup_str[index + 7:index + 7 + 5]

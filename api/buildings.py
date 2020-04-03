@@ -1,4 +1,4 @@
-from functools import reduce, total_ordering
+from functools import total_ordering
 
 import assets
 from .assets import Building
@@ -17,13 +17,17 @@ class BuildingInstance(assets.BuildingType):
         self.location_id = location_id
 
     def __str__(self):
-        return '{0}\t{1} @ {2}'.format(super().__str__(),
-                                       self.lvl if self.plus_lvl == 0 else "{0}+{1}".format(self.lvl, self.plus_lvl),
-                                       self.location_id)
+        return '({0} - lvl:{1} id:{2})'.format(
+            super().__str__(),
+            self.lvl if self.plus_lvl == 0 else f'{self.lvl}+{self.plus_lvl}',
+            self.location_id)
+
+    def __repr__(self):
+        return f'Building({self.__str__()})'
 
     # For comparing BuildingInstance with BuildingInstance
     # - The ordering is done looking only at the lvl.
-    # - This enables a workflow where you can select the "min" or "max" of multiple buildings based on lvl
+    # - This enables a workflow where you can select the 'min' or 'max' of multiple buildings based on lvl
     # For comparing BuildingInstance with BuildingType
     # - return True if the 2 buildings are of the same type
 
@@ -59,7 +63,10 @@ class VillageBuildings:
         self.buildings = [BuildingInstance(Building.empty, 0, 0, 0) for _ in range(41)]
 
     def __str__(self):
-        return reduce(lambda x, y: x + y, map(lambda x: str(x) + "\n", self.buildings))
+        return self.buildings
+
+    def __repr__(self):
+        return f'Buildings({self.buildings})'
 
     def __getitem__(self, key):
         return self.buildings[key]

@@ -27,7 +27,7 @@ def countdown_to_sec(txt) -> int:
 
 def sec_to_countdown(num_secs) -> str:
     assert num_secs < 24*60*60
-    return f"{num_secs//(60*60)}:{(num_secs//60)%60:02d}:{num_secs%60:02d}"
+    return f'{num_secs//(60*60)}:{(num_secs//60)%60:02d}:{num_secs%60:02d}'
 
 
 def comma_number_to_int(txt) -> int:

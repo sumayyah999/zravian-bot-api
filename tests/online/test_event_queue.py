@@ -1,16 +1,16 @@
 from unittest import TestCase
-from bs4 import BeautifulSoup
 import time
 
+from tests.utils import *
 from api.credentials import init_credentials
-from api.event_queue import parse_building_construction_queue, EventQueue
+from api.event_queue import EventQueue
 from api.account import Account
 from api.actions import construct_building, upgrade_building, demolish_building, host_celebration, send_resources
 from api.assets import Building, Celebration
 
 
 class TestEventQueue(TestCase):
-    # Online version - construct cranny, level up cranny, wait for finish events, demolish 2 levels of cranny
+    # construct cranny, level up cranny, wait for finish events, demolish 2 levels of cranny
     def test_broadcast_finished_events(self):
         credentials = init_credentials('./tests/configs/credentials_dynamic_login.json')
 
@@ -24,9 +24,7 @@ class TestEventQueue(TestCase):
         assert construct_building(credentials, village, 32, Building.cranny)
         assert upgrade_building(credentials, village, 32)
         b = village.buildings[32]
-        assert b.name == Building.cranny.name
-        assert b.lvl == 0
-        assert b.plus_lvl == 2
+        assert_str(b, 'Building((Cranny - lvl:0+2 id:32))')
 
         actions_left = 2
         num_sleep = 0
@@ -36,14 +34,14 @@ class TestEventQueue(TestCase):
                 actions_left -= num
                 village.force_update(credentials)
                 print(b, " event_queue test @ building")
-                assert b.lvl >= 2 - actions_left
+                assert_le(2 - actions_left, b.lvl)
 
             time.sleep(0.5)
             num_sleep += 1
 
-        assert num_sleep < 2 * 13.5
-        assert num_sleep < 2 * 12.5
-        assert num_sleep < 2 * 11.5
+        assert_lt(num_sleep, 2 * 13.5)
+        assert_lt(num_sleep, 2 * 12.5)
+        assert_lt(num_sleep, 2 * 11.5)
 
         demolish_building(credentials, village, 32)
         time.sleep(2)
@@ -51,12 +49,12 @@ class TestEventQueue(TestCase):
         time.sleep(1)
 
         village.force_update(credentials)
-        assert b.name == Building.empty.name
-        assert b.lvl == 0
-        assert b.plus_lvl == 0
+        assert_str(b, 'Building((Empty place - lvl:0 id:32))')
 
+    # TODO(@alexvelea) merge this with the test above
     def test_demolish_events(self):
-        credentials = init_credentials('./configs/credentials_dynamic_login.json')
+        return
+        credentials = init_credentials('./tests/configs/credentials_dynamic_login.json')
 
         own_uid = credentials.get_own_uid()
         account = Account(own_uid)
@@ -82,10 +80,10 @@ class TestEventQueue(TestCase):
             time.sleep(0.5)
             num_sleep += 1
 
-        assert num_sleep / 2 < 20
+        assert_lt(num_sleep / 2, 20)
 
     def test_celebration_events(self):
-        credentials = init_credentials('./configs/credentials_dynamic_login.json')
+        credentials = init_credentials('./tests/configs/credentials_dynamic_login.json')
 
         own_uid = credentials.get_own_uid()
         account = Account(own_uid)
@@ -103,10 +101,10 @@ class TestEventQueue(TestCase):
             if event.event_type == EventQueue.CelebrationCompleted and event.village.vid == village.vid:
                 found = True
 
-        assert found
+        assert_eq(found, 1)
 
     def test_send_resources(self):
-        credentials = init_credentials('./configs/credentials_dynamic_login.json')
+        credentials = init_credentials('./tests/configs/credentials_dynamic_login.json')
 
         own_uid = credentials.get_own_uid()
         account = Account(own_uid)
@@ -125,21 +123,4 @@ class TestEventQueue(TestCase):
             if event.event_type == EventQueue.TradersArrived and event.village.vid == village.vid:
                 num += 1
 
-        assert num == 1
-
-
-class Test(TestCase):
-    # Offline version - parse building construction queue from html dump
-    def test_parse_buildings_queue(self):
-        with open('./tests/configs/village2_example2_html_dump.txt', 'r') as content_file:
-            content = content_file.read()
-            soup = BeautifulSoup(content, 'html.parser')
-
-            queue = parse_building_construction_queue(soup, None)
-            queue_str = str(list(map(lambda x: str(x), queue)))
-
-            expected = "['BuildingFinished at 22:50:53 in None',"\
-                       " 'BuildingFinished at 22:54:24 in None',"\
-                       " 'BuildingFinished at 22:58:30 in None']"
-
-            assert queue_str == expected
+        assert_eq(num, 1)

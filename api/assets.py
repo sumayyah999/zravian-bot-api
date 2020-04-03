@@ -22,7 +22,10 @@ class BuildingType:
         return list(map(lambda x: 5 * round(x * cost_multiplier / 5), self.base_price))
 
     def __str__(self):
-        return self.name
+        return f'{self.name}'
+
+    def __repr__(self):
+        return f'BuildingType({self.name})'
 
 
 # TODO(@alexvelea) Add The rest of the buildings extended Rax, wall as well as race-specific buildings
@@ -47,7 +50,7 @@ class Building:
     warehouse = BuildingType('Warehouse', 10, max_level=20, base_price=[130, 160, 90, 40], cost_grow=cost_default)
     granary = BuildingType('Granary', 11, max_level=20, base_price=[80, 100, 70, 20], cost_grow=cost_default)
     marketplace = BuildingType('Marketplace', 17, max_level=20, base_price=[80, 70, 120, 70], cost_grow=cost_default)
-    trade_office = BuildingType("Trade Office", 28, max_level=20, base_price=[1400, 1330, 1200, 400], cost_grow=cost_default)
+    trade_office = BuildingType('Trade Office', 28, max_level=20, base_price=[1400, 1330, 1200, 400], cost_grow=cost_default)
 
     # Infrastructure
     mainB = BuildingType('Main Building', 15, max_level=20, base_price=[70, 40, 60, 20], cost_grow=cost_default)
@@ -67,11 +70,11 @@ class Building:
     rally = BuildingType('Rally Point', 16, max_level=20, base_price=[110, 160, 90, 70], cost_grow=cost_default)
     tournament_square = BuildingType('Tournament Square', 14, max_level=20, base_price=[1750, 2250, 1530, 240], cost_grow=cost_default)
     horse_upkeep = BuildingType('Horse Drinking Pool', 41, max_level=20, base_price=[780, 420, 660, 540], cost_grow=cost_default)
-    brewery = BuildingType("Brewery", 35, max_level=10, base_price=[1460, 930, 1250, 1740], cost_grow=1.4)
+    brewery = BuildingType('Brewery', 35, max_level=10, base_price=[1460, 930, 1250, 1740], cost_grow=1.4)
 
     # Expansion
     residence = BuildingType('Residence', 25, max_level=20, base_price=[580, 460, 350, 180], cost_grow=cost_default)
-    palace = BuildingType("Palace", 26, max_level=20, base_price=[550, 800, 750, 250], cost_grow=cost_default)
+    palace = BuildingType('Palace', 26, max_level=20, base_price=[550, 800, 750, 250], cost_grow=cost_default)
     hall = BuildingType('Town Hall', 24, max_level=20, base_price=[1250, 1110, 1260, 600], cost_grow=cost_default)
 
     # Resources
@@ -102,21 +105,21 @@ class Building:
 
 
 class Tribe:
-    teutons = "teutons"
-    romans = "romans"
-    gauls = "gauls"
+    teutons = 'teutons'
+    romans = 'romans'
+    gauls = 'gauls'
 
 
 class UnitType:
-    cavalry = "cavalry"
-    infantry = "infantry"
+    cavalry = 'cavalry'
+    infantry = 'infantry'
 
     def __init__(self, atk_upgrade=0, def_upgrade=0, whole_object=None):
         if whole_object is None:
-            self.name = ""
+            self.name = ''
             self.uid = 0
-            self.tribe = ""
-            self.unit_type = ""
+            self.tribe = ''
+            self.unit_type = ''
             self.atk = 0
             self.inf_def = 0
             self.cav_def = 0
@@ -157,6 +160,9 @@ class UnitType:
     def __str__(self):
         return self.name
 
+    def __repr__(self):
+        return f'Unit({self.name} - {self.tribe})'
+
 
 class Unit:
     settle = 4
@@ -164,16 +170,16 @@ class Unit:
     attack_normal = 3
     raid = 4
 
-    legionnaire = UnitType.from_init("Legionnaire", 1, Tribe.romans, UnitType.infantry, Building.barracks, 40, 35, 50, 6, 50, 1, [120, 100, 150, 30])
-    praetorian = UnitType.from_init("Praetorian", 2, Tribe.romans, UnitType.infantry, Building.barracks, 30, 65, 35, 5, 20, 1, [100, 130, 160, 70])
-    imperian = UnitType.from_init("Imperian", 3, Tribe.romans, UnitType.infantry, Building.barracks, 70, 40, 25, 7, 50, 1, [150, 160, 210, 80])
-    legati = UnitType.from_init("Equites Legati", 4, Tribe.romans, UnitType.cavalry, Building.stable, 0, 20, 10, 16, 0, 2, [140, 160, 20, 40])
-    imperatoris = UnitType.from_init("Equites Imperatoris", 5, Tribe.romans, UnitType.cavalry, Building.stable, 120, 65, 50, 14, 100, 3, [550, 440, 320, 100])
-    caesaris = UnitType.from_init("Equites Caesaris", 6, Tribe.romans, UnitType.cavalry, Building.stable, 180, 80, 105, 10, 70, 4, [550, 640, 800, 180])
-    roman_ram = UnitType.from_init("Battering ram", 7, Tribe.romans, UnitType.infantry, Building.siege, 60, 30, 75, 4, 0, 3, [900, 360, 500, 70])
-    roman_catapult = UnitType.from_init("Fire Catapult", 8, Tribe.romans, UnitType.infantry, Building.siege, 75, 60, 10, 3, 0, 6, [950, 1350, 600, 90])
-    roman_chief = UnitType.from_init("Senator", 9, Tribe.romans, UnitType.infantry, Building.residence, 50, 40, 30, 4, 0, 5, [30750, 27200, 45000, 37500])
-    roman_settler = UnitType.from_init("Settler", 10, Tribe.romans, UnitType.infantry, Building.residence, 0, 80, 80, 5, 3000, 1, [5800, 5300, 7200, 5500])
+    legionnaire = UnitType.from_init('Legionnaire', 1, Tribe.romans, UnitType.infantry, Building.barracks, 40, 35, 50, 6, 50, 1, [120, 100, 150, 30])
+    praetorian = UnitType.from_init('Praetorian', 2, Tribe.romans, UnitType.infantry, Building.barracks, 30, 65, 35, 5, 20, 1, [100, 130, 160, 70])
+    imperian = UnitType.from_init('Imperian', 3, Tribe.romans, UnitType.infantry, Building.barracks, 70, 40, 25, 7, 50, 1, [150, 160, 210, 80])
+    legati = UnitType.from_init('Equites Legati', 4, Tribe.romans, UnitType.cavalry, Building.stable, 0, 20, 10, 16, 0, 2, [140, 160, 20, 40])
+    imperatoris = UnitType.from_init('Equites Imperatoris', 5, Tribe.romans, UnitType.cavalry, Building.stable, 120, 65, 50, 14, 100, 3, [550, 440, 320, 100])
+    caesaris = UnitType.from_init('Equites Caesaris', 6, Tribe.romans, UnitType.cavalry, Building.stable, 180, 80, 105, 10, 70, 4, [550, 640, 800, 180])
+    roman_ram = UnitType.from_init('Battering ram', 7, Tribe.romans, UnitType.infantry, Building.siege, 60, 30, 75, 4, 0, 3, [900, 360, 500, 70])
+    roman_catapult = UnitType.from_init('Fire Catapult', 8, Tribe.romans, UnitType.infantry, Building.siege, 75, 60, 10, 3, 0, 6, [950, 1350, 600, 90])
+    roman_chief = UnitType.from_init('Senator', 9, Tribe.romans, UnitType.infantry, Building.residence, 50, 40, 30, 4, 0, 5, [30750, 27200, 45000, 37500])
+    roman_settler = UnitType.from_init('Settler', 10, Tribe.romans, UnitType.infantry, Building.residence, 0, 80, 80, 5, 3000, 1, [5800, 5300, 7200, 5500])
 
     romans = \
         [legionnaire, praetorian, imperian,
@@ -190,7 +196,13 @@ class CelebrationType:
         self.cid = cid
         self.cost = cost
 
+    def __str__(self):
+        return f'{self.name}'
+
+    def __repr__(self):
+        return f"Celebration({self.name.split(' ')[0].lower()})"
+
 
 class Celebration:
-    small = CelebrationType("Small celebration", 1, [6400, 6650, 5940, 1340])
-    big = CelebrationType("Large celebration", 2, [29700, 33250, 32000, 6700])
+    small = CelebrationType('Small celebration', 1, [6400, 6650, 5940, 1340])
+    big = CelebrationType('Large celebration', 2, [29700, 33250, 32000, 6700])
