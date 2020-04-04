@@ -10,7 +10,7 @@ from api.assets import Building, Celebration
 
 
 class TestEventQueue(TestCase):
-    # construct cranny, level up cranny, wait for finish events, demolish 2 levels of cranny
+    # Construct cranny, Lvl up cranny, demolish 2 levels, construct cranny, demolish cranny
     def test_broadcast_finished_events(self):
         credentials = init_credentials('./tests/configs/credentials_dynamic_login.json')
 
@@ -26,62 +26,40 @@ class TestEventQueue(TestCase):
         b = village.buildings[32]
         assert_str(b, 'Building((Cranny - lvl:0+2 id:32))')
 
-        actions_left = 2
-        num_sleep = 0
+        actions_left = 6
+        num_times_sleep = 0
+        time_granularity = 0.1
         while actions_left > 0:
             num = account.events.broadcast_finished_events()
             if num:
-                actions_left -= num
+                assert_eq(num, 1)
+                actions_left -= 1
                 village.force_update(credentials)
-                print(b, " event_queue test @ building")
-                assert_le(2 - actions_left, b.lvl)
 
-            time.sleep(0.5)
-            num_sleep += 1
+                if actions_left == 5:
+                    assert_str(b, 'Building((Cranny - lvl:1+1 id:32))')
+                if actions_left == 4:
+                    assert_str(b, 'Building((Cranny - lvl:2 id:32))')
+                    demolish_building(credentials, village, 32)
+                if actions_left == 3:
+                    assert_str(b, 'Building((Cranny - lvl:1 id:32))')
+                    demolish_building(credentials, village, 32)
+                if actions_left == 2:
+                    assert_str(b, 'Building((Empty place - lvl:0 id:32))')
+                    assert construct_building(credentials, village, 32, Building.cranny)
+                if actions_left == 1:
+                    assert_str(b, 'Building((Cranny - lvl:1 id:32))')
+                    demolish_building(credentials, village, 32)
+                if actions_left == 0:
+                    assert_str(b, 'Building((Empty place - lvl:0 id:32))')
 
-        assert_lt(num_sleep, 2 * 13.5)
-        assert_lt(num_sleep, 2 * 12.5)
-        assert_lt(num_sleep, 2 * 11.5)
+            time.sleep(time_granularity)
+            num_times_sleep += 1
 
-        demolish_building(credentials, village, 32)
-        time.sleep(2)
-        demolish_building(credentials, village, 32)
-        time.sleep(1)
+        # Assert time to complete, for a relative benchmark
+        assert_lt(num_times_sleep * time_granularity, 18.0)
 
-        village.force_update(credentials)
-        assert_str(b, 'Building((Empty place - lvl:0 id:32))')
-
-    # TODO(@alexvelea) merge this with the test above
-    def test_demolish_events(self):
-        return
-        credentials = init_credentials('./tests/configs/credentials_dynamic_login.json')
-
-        own_uid = credentials.get_own_uid()
-        account = Account(own_uid)
-        account.update_villages(credentials)
-
-        village = account.get_village_by_vid(4007)
-        village.force_update(credentials)
-
-        assert construct_building(credentials, village, 25, Building.barracks)
-        actions_left = 4
-        num_sleep = 0
-        while actions_left > 0:
-            num = account.events.broadcast_finished_events()
-            if num:
-                actions_left -= num
-                if actions_left % 2 == 1:
-                    village.force_update(credentials)
-                    demolish_building(credentials, village, 25)
-                elif actions_left != 0:
-                    village.force_update(credentials)
-                    assert construct_building(credentials, village, 25, Building.barracks)
-
-            time.sleep(0.5)
-            num_sleep += 1
-
-        assert_lt(num_sleep / 2, 20)
-
+    # Host a celebration and check if 
     def test_celebration_events(self):
         credentials = init_credentials('./tests/configs/credentials_dynamic_login.json')
 
