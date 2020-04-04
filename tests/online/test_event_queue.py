@@ -59,7 +59,9 @@ class TestEventQueue(TestCase):
         # Assert time to complete, for a relative benchmark
         assert_lt(num_times_sleep * time_granularity, 18.0)
 
-    # Host a celebration and check if 
+    # Host a celebration and check if the 'CelebrationCompleted' event is in the queue
+    # - this will allow the event to be inside the Q even if the host_celebration fails, due to another celebrations
+    #   already taking place.
     def test_celebration_events(self):
         credentials = init_credentials('./tests/configs/credentials_dynamic_login.json')
 

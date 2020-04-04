@@ -53,6 +53,7 @@ class Village:
         new_k = parse_k(soup)
         self.k = self.k if new_k is None else new_k
 
+        # TODO: move this update into account
         self.account.events.update_from_soup(soup, village=self)
         self.buildings.update_from_soup(soup)
         self.resources.update_from_soup(soup)
@@ -64,15 +65,3 @@ def parse_k(soup):
     if index == -1:
         return None
     return soup_str[index + 7:index + 7 + 5]
-
-
-# TODO(@alexvelea) Should I deprecate this?
-# Given a page, it returns the vid of the selected village or None if the account has only 1 village
-def parse_current_vid(soup):
-    side_info = soup.find('div', {'id': 'side_info'})
-    if side_info is None:
-        return None
-
-    vid_link = side_info.find('a', {'style': 'text-decoration:underline'})
-    # href="?vid=4007"
-    return int(re.search('\?vid=(.*)', vid_link['href']).group(1))

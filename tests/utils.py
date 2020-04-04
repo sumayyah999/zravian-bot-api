@@ -1,4 +1,7 @@
 from bs4 import BeautifulSoup
+from api.account import Account
+from api.village import Village
+from api.credentials import Page
 
 
 def assert_str(a, b):
@@ -36,3 +39,19 @@ def soup_from_file(file_path):
         content = content_file.read()
         soup = BeautifulSoup(content, 'html.parser')
         return soup
+
+
+def get_dumped_account():
+    soup_overview = soup_from_file('./tests/configs/village1_html_dump.txt')
+    soup_overview.page = Page.overview
+
+    soup_center = soup_from_file('./tests/configs/village2_html_dump.txt')
+    soup_center.page = Page.center
+
+    account = Account(0)
+    village = Village(account, 0, '')
+    village.update_from_soup(soup_overview)
+    village.update_from_soup(soup_center)
+    account.villages = [village]
+
+    return account
